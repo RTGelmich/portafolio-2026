@@ -22,10 +22,9 @@ export const ui = {
     en: 'I ship systems people actually run their business on.',
     es: 'Construyo sistemas con los que la gente de verdad opera su negocio.',
   },
-  // TODO(angel): confirmar años de experiencia para ponerlos aquí.
   heroBajada: {
-    en: 'I turn messy operations into software that holds up in production — gyms, banks, gas distributors, schools. Every project below is playable: touch the actual problem I solved.',
-    es: 'Convierto operaciones desordenadas en software que aguanta producción — gimnasios, bancos, distribuidoras de gas, escuelas. Cada proyecto de abajo es jugable: mete la mano en el problema real que resolví.',
+    en: 'Since 2021 I have been turning messy operations into software that holds up in production — banks, gyms, gas distributors, schools. Every project below is playable: touch the actual problem I solved.',
+    es: 'Desde 2021 convierto operaciones desordenadas en software que aguanta producción — bancos, gimnasios, distribuidoras de gas, escuelas. Cada proyecto de abajo es jugable: mete la mano en el problema real que resolví.',
   },
   heroVerTrabajo: { en: 'See the work', es: 'Ver el trabajo' },
   heroDescargarCv: { en: 'Download CV', es: 'Descargar CV' },

@@ -9,9 +9,29 @@ import type { Bilingue } from '../i18n/idioma'
  * confirmó.
  */
 export const personal = {
-  ciudad: 'Monterrey',
+  ciudad: 'Ciudad de México',
   pais: 'México',
-  zonaHoraria: 'America/Monterrey',
+  zonaHoraria: 'America/Mexico_City',
+
+  /** Año en que empezó a trabajar en tecnología. De LinkedIn: Riot Games, enero 2021. */
+  desdeAnio: 2021,
+
+  /**
+   * Trayectoria, tal como está en LinkedIn. Los años se calculan solos para
+   * que la tarjeta no envejezca sin que nadie la toque.
+   */
+  trayectoria: [
+    { empresa: 'Banco Azteca', desde: 2024, hasta: null },
+    { empresa: 'eGas Control Volumétrico', desde: 2024, hasta: 2024 },
+    { empresa: 'Denumeris', desde: 2021, hasta: 2024 },
+    { empresa: 'Riot Games', desde: 2021, hasta: 2022 },
+  ],
+
+  /** Formación. También de LinkedIn. */
+  formacion: {
+    titulo: { en: 'Computer Engineering', es: 'Ingeniería en Computación' },
+    escuela: 'FES Aragón, UNAM',
+  },
 
   /** Teclas que se pintan como keycaps. Cinco caben bien; seis se aprietan. */
   teclas: ['R', 'E', 'A', 'C', 'T'],
@@ -57,5 +77,5 @@ export const personal = {
 export const esteSitio = {
   lighthouse: '100',
   jsInicial: '96 kB',
-  pruebas: 33,
+  pruebas: 35,
 }

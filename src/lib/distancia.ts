@@ -1,5 +1,5 @@
 /**
- * Distancia aproximada entre Monterrey y quien está viendo la página.
+ * Distancia aproximada entre Ciudad de México y quien está viendo la página.
  *
  * Josh Comeau hace esto con la IP del visitante. Aquí se usa la **zona horaria
  * del navegador**, y a propósito:
@@ -14,8 +14,8 @@
  * kilómetros" es exactamente la precisión que hace falta.
  */
 
-/** Monterrey, Nuevo León. */
-export const ORIGEN = { lat: 25.6866, lon: -100.3161, ciudad: 'Monterrey' }
+/** Ciudad de México. */
+export const ORIGEN = { lat: 19.4326, lon: -99.1332, ciudad: 'Ciudad de México' }
 
 /**
  * Coordenadas aproximadas de la ciudad que da nombre a cada zona horaria.
@@ -141,7 +141,7 @@ export type Ubicacion = {
   ciudad: string
   lat: number
   lon: number
-  /** Kilómetros hasta Monterrey, redondeados a la decena. */
+  /** Kilómetros hasta la ciudad de Angel, redondeados a la decena. */
   km: number
 }
 
@@ -166,14 +166,3 @@ export function ubicacionDelVisitante(): Ubicacion | null {
   }
 }
 
-/**
- * Proyección equirectangular a un lienzo de 0..1. Es la que corresponde al
- * mapa que dibujamos, que también es equirectangular; con cualquier otra los
- * puntos caerían fuera de su país.
- */
-export function aPlano(lat: number, lon: number): { x: number; y: number } {
-  return {
-    x: (lon + 180) / 360,
-    y: (90 - lat) / 180,
-  }
-}

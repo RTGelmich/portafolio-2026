@@ -12,9 +12,8 @@ export const contacto = {
   githubVisible: 'github.com/RTGelmich',
   githubUrl: 'https://github.com/RTGelmich',
 
-  // TODO(angel): pasar el perfil de LinkedIn. Sin él, la tarjeta no se renderiza.
-  linkedinVisible: '',
-  linkedinUrl: '',
+  linkedinVisible: 'in/angel-flores',
+  linkedinUrl: 'https://www.linkedin.com/in/angel-flores-755372219/',
 
   // TODO(angel): generar el PDF del CV y ponerlo en public/. Sin él, el botón se oculta.
   cvUrl: '',

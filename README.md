@@ -65,7 +65,7 @@ npm run dev       # servidor de desarrollo
 npm run build     # genera sitemap + typecheck + build
 npm run preview   # sirve el build de producción
 npm run lint
-npm run probar    # 33 pruebas e2e sobre los seis widgets, la sección personal, teclado y reduced-motion
+npm run probar    # 35 pruebas e2e sobre los seis widgets, la sección personal, teclado y reduced-motion
 npm run og        # regenera public/og.png
 ```
 

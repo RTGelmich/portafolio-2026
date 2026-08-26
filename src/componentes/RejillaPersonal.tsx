@@ -29,7 +29,7 @@ function Tarjeta({
   )
 }
 
-/** Hora en Monterrey, se actualice quien se actualice el reloj de quien mira. */
+/** Hora en la ciudad de Angel, se actualice quien se actualice el reloj de quien mira. */
 function useHoraLocal() {
   const [ahora, setAhora] = useState(() => new Date())
 
@@ -95,7 +95,20 @@ export function RejillaPersonal() {
             </div>
 
             <p className="mt-4 text-pretty text-sm leading-relaxed text-tinta/85">
-              {visitante ? (
+              {/* Tres casos: no reconocemos la zona, resulta ser la misma
+                  ciudad, o hay una distancia que decir. Sin el caso de en medio
+                  la tarjeta saluda con "a unos 0 km de ti", que se lee a bug. */}
+              {!visitante ? (
+                t({
+                  en: `I'm in ${personal.ciudad}, ${personal.pais}.`,
+                  es: `Estoy en ${personal.ciudad}, ${personal.pais}.`,
+                })
+              ) : visitante.km < 50 ? (
+                t({
+                  en: `I'm in ${personal.ciudad} — and so are you, by the looks of it.`,
+                  es: `Estoy en ${personal.ciudad} — y tú también, por lo que se ve.`,
+                })
+              ) : (
                 <>
                   {t({
                     en: `I'm in ${personal.ciudad}, ${personal.pais} — about `,
@@ -106,11 +119,6 @@ export function RejillaPersonal() {
                   </span>
                   {t({ en: ' from you.', es: ' de ti.' })}
                 </>
-              ) : (
-                t({
-                  en: `I'm in ${personal.ciudad}, ${personal.pais}.`,
-                  es: `Estoy en ${personal.ciudad}, ${personal.pais}.`,
-                })
               )}
             </p>
 
@@ -173,6 +181,31 @@ export function RejillaPersonal() {
             <p className="mt-3 font-mono text-xs text-tenue">
               {esteSitio.jsInicial} JS · {esteSitio.pruebas}{' '}
               {t({ en: 'e2e tests', es: 'pruebas e2e' })}
+            </p>
+          </Tarjeta>
+
+          {/* Trayectoria */}
+          <Tarjeta className="lg:col-span-2" retraso={280}>
+            <ol className="space-y-1.5 text-left">
+              {personal.trayectoria.map((paso) => (
+                <li
+                  key={paso.empresa}
+                  className="flex items-baseline justify-between gap-3 border-b border-borde/60 pb-1.5 last:border-0"
+                >
+                  <span className="text-sm text-tinta">{paso.empresa}</span>
+                  <span className="shrink-0 font-mono text-[11px] text-tenue">
+                    {paso.desde}
+                    {paso.hasta === null
+                      ? ` — ${t({ en: 'now', es: 'hoy' })}`
+                      : paso.hasta === paso.desde
+                        ? ''
+                        : ` — ${paso.hasta}`}
+                  </span>
+                </li>
+              ))}
+            </ol>
+            <p className="mt-3 text-left text-xs text-tenue">
+              {t(personal.formacion.titulo)} · {personal.formacion.escuela}
             </p>
           </Tarjeta>
 

@@ -180,13 +180,29 @@ await pagina.evaluate(() =>
 await esperar(900)
 
 const cuerpoPersonal = await texto()
-revisar(
-  'calcula la distancia hasta quien visita',
-  /a unos [\d,]+ km de ti/.test(cuerpoPersonal),
-  cuerpoPersonal.match(/a unos ([\d,]+ km) de ti/)?.[1],
+revisar('reconoce al visitante de la misma ciudad', /y tú también/.test(cuerpoPersonal))
+
+// Con otra zona horaria sí tiene que salir una distancia.
+const lejos = await navegador.newPage()
+await lejos.emulateTimezone('Europe/Madrid')
+await lejos.evaluateOnNewDocument(() => localStorage.setItem('portafolio:idioma', 'es'))
+await lejos.goto(BASE, { waitUntil: 'networkidle2' })
+await lejos.evaluate(() =>
+  document.querySelector('#sobre-mi')?.scrollIntoView({ behavior: 'instant', block: 'start' }),
 )
+await esperar(900)
+const desdeMadrid = await lejos.evaluate(() => document.body.innerText)
+const km = desdeMadrid.match(/a unos ([\d,]+) km de ti/)?.[1]
+revisar('calcula la distancia hasta quien visita', Boolean(km), km ? `${km} km desde Madrid` : 'sin match')
+// Madrid–CDMX son ~9,000 km. Un orden de magnitud fuera delataría un error
+// de proyección o de unidades.
+revisar(
+  'la distancia tiene el orden correcto',
+  km && Number(km.replaceAll(',', '')) > 8000 && Number(km.replaceAll(',', '')) < 10000,
+)
+await lejos.close()
 revisar('dice que no usa la IP', cuerpoPersonal.includes('no con tu IP'))
-revisar('muestra la hora de Monterrey', /\d{1,2}:\d{2}/.test(cuerpoPersonal))
+revisar('muestra la hora local de Angel', /\d{1,2}:\d{2}/.test(cuerpoPersonal))
 
 // Los contornos del lado oculto del globo se descartan, así que el número
 // depende de hacia dónde esté girado. Lo que importa es que dibuje ambos.

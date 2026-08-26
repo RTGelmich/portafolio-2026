@@ -9,7 +9,7 @@ const CENTRO = TAMANO / 2
 const RADIO = TAMANO / 2 - 14
 
 /**
- * Globo con la retícula, Monterrey, el visitante y el arco entre los dos.
+ * Globo con la retícula, la ciudad de Angel, el visitante y el arco entre los dos.
  * Todo se calcula al vuelo; no hay imagen de mapa ni datos de países.
  */
 export function Globo({ visitante }: { visitante: Ubicacion | null }) {
