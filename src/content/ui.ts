@@ -33,6 +33,12 @@ export const ui = {
     es: 'Arrastra para mover el campo',
   },
 
+  resenasEyebrow: { en: 'Recommendations', es: 'Recomendaciones' },
+  resenasTitulo: {
+    en: 'What people who worked with me say.',
+    es: 'Lo que dice la gente que ha trabajado conmigo.',
+  },
+
   sobreMiTitulo: {
     en: 'Some things about me that are not projects.',
     es: 'Unas cosas sobre mí que no son proyectos.',

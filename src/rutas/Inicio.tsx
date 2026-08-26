@@ -1,6 +1,7 @@
 import { Contacto } from '../componentes/Contacto'
 import { Hero } from '../componentes/Hero'
 import { RejillaPersonal } from '../componentes/RejillaPersonal'
+import { Resenas } from '../componentes/Resenas'
 import { Revelar } from '../componentes/Revelar'
 import { TarjetaProyecto } from '../componentes/TarjetaProyecto'
 import { contacto } from '../content/contacto'
@@ -42,6 +43,8 @@ export function Inicio() {
           </div>
         </div>
       </section>
+
+      <Resenas />
 
       <RejillaPersonal />
 
