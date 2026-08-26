@@ -51,22 +51,13 @@ export const personal = {
     },
   ],
 
-  /**
-   * Herramientas de IA con las que trabaja de verdad. La lista es concreta a
-   * propósito: "domino la IA" no lo puede comprobar nadie, "corre Claude en
-   * producción en el bot de EXPRESS" sí.
-   */
-  ia: {
-    modelos: ['Claude', 'GPT', 'Kimi'],
-  },
 
   /** Teclas que se pintan como keycaps. Cinco caben bien; seis se aprietan. */
   teclas: ['R', 'E', 'A', 'C', 'T'],
 
   estatura: {
-    // TODO(angel): tu estatura en cm si le quieres copiar la broma a Josh.
-    activa: false,
-    cm: 0,
+    activa: true,
+    cm: 172,
     remate: {
       en: 'For some reason this surprises people.',
       es: 'Por alguna razón esto sorprende a la gente.',
@@ -104,5 +95,5 @@ export const personal = {
 export const esteSitio = {
   lighthouse: '100',
   jsInicial: '96 kB',
-  pruebas: 38,
+  pruebas: 39,
 }

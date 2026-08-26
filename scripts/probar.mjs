@@ -226,23 +226,21 @@ const despues = await pagina.evaluate(
 )
 revisar('los ojos del avatar siguen al cursor', antes !== despues)
 
-// La credencial no sirve de nada si no se puede comprobar, y el texto tiene
-// que decir lo que de verdad es: una insignia de curso, no una certificación.
+// La credencial no sirve de nada si no se puede comprobar, y el texto no debe
+// llamarla certificación: la página de verificación dice insignia de curso.
 const credencial = await pagina.evaluate(() => {
   const a = [...document.querySelectorAll('#sobre-mi a')].find((n) =>
-    n.textContent?.includes('Verificar'),
+    (n.getAttribute('href') ?? '').includes('academy.claude.com'),
   )
-  return a ? { href: a.getAttribute('href'), texto: a.closest('div')?.textContent ?? '' } : null
+  return a ? a.closest('div')?.textContent ?? '' : null
 })
-revisar('la credencial enlaza a su verificación', credencial?.href?.includes('academy.claude.com'))
-revisar('la credencial dice que es una insignia, no una certificación', 
-  /insignia/i.test(credencial?.texto ?? '') && !/certificaci/i.test(credencial?.texto ?? ''))
-revisar('la tarjeta de IA enlaza al proyecto que lo respalda',
-  await pagina.evaluate(() =>
-    [...document.querySelectorAll('#sobre-mi a')].some((a) =>
-      (a.getAttribute('href') ?? '').includes('/trabajo/express'),
-    ),
-  ))
+revisar('la credencial enlaza a su verificación', credencial !== null)
+revisar('la credencial nombra el curso', /Claude Code 101/.test(credencial ?? ''))
+revisar(
+  'el sitio nunca llama certificación a la insignia',
+  !/certificaci/i.test(cuerpoPersonal),
+)
+revisar('muestra la estatura en metros', /1\.72 m/.test(cuerpoPersonal))
 
 // ------------------------------------------------------------------- Teclado
 console.log('\nAccesibilidad')

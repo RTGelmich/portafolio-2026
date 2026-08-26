@@ -1,5 +1,4 @@
 import { Suspense, lazy, useEffect, useMemo, useState, type ReactNode } from 'react'
-import { Link } from 'react-router'
 
 import { esteSitio, personal } from '../content/personal'
 import { ui } from '../content/ui'
@@ -185,50 +184,6 @@ export function RejillaPersonal() {
             </p>
           </Tarjeta>
 
-          {/* IA: modelos concretos y el proyecto donde uno de ellos corre en
-              producción. Sin ese enlace esta tarjeta sería una afirmación
-              sin respaldo, que es justo lo que el resto del sitio evita. */}
-          <Tarjeta className="lg:col-span-2" retraso={250}>
-            <p className="font-mono text-lg text-tinta">{personal.ia.modelos.join(' · ')}</p>
-            <p className="mt-3 text-pretty text-sm leading-relaxed text-tinta/85">
-              {t({
-                en: 'I build with several models rather than betting on one: agents, orchestration, context management, and automations wired to their APIs.',
-                es: 'Construyo con varios modelos en vez de apostarle a uno: agentes, orquestación, manejo de contexto y automatizaciones conectadas a sus APIs.',
-              })}
-            </p>
-            <Link
-              to="/trabajo/express#demo"
-              className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-acento"
-            >
-              {t({
-                en: 'One of them runs in production',
-                es: 'Uno de ellos corre en producción',
-              })}
-              <span aria-hidden="true">→</span>
-            </Link>
-          </Tarjeta>
-
-          {/* Credenciales verificables */}
-          {personal.credenciales.map((credencial, indice) => (
-            <Tarjeta key={credencial.nombre} retraso={260 + indice * 60}>
-              <p className="eyebrow">{t(credencial.tipo)}</p>
-              <p className="mt-2 text-lg font-medium text-balance text-tinta">
-                {credencial.nombre}
-              </p>
-              <p className="mt-1 text-xs text-tenue">
-                {credencial.emisor} · {t(credencial.fecha)}
-              </p>
-              <a
-                href={credencial.url}
-                target="_blank"
-                rel="noreferrer"
-                className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-acento"
-              >
-                {t({ en: 'Verify', es: 'Verificar' })}
-                <span aria-hidden="true">↗</span>
-              </a>
-            </Tarjeta>
-          ))}
 
           {/* Trayectoria */}
           <Tarjeta className="lg:col-span-2" retraso={280}>
@@ -253,6 +208,20 @@ export function RejillaPersonal() {
             <p className="mt-3 text-left text-xs text-tenue">
               {t(personal.formacion.titulo)} · {personal.formacion.escuela}
             </p>
+
+            {personal.credenciales.map((credencial) => (
+              <p key={credencial.nombre} className="mt-1.5 text-left text-xs text-tenue">
+                {credencial.nombre} · {credencial.emisor} ·{' '}
+                <a
+                  href={credencial.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-acento underline-offset-2 hover:underline"
+                >
+                  {t({ en: 'verify', es: 'verificar' })}
+                </a>
+              </p>
+            ))}
           </Tarjeta>
 
           {/* Idiomas */}
@@ -268,7 +237,7 @@ export function RejillaPersonal() {
 
           {/* Qué tipo de problema le gusta: cierra el renglón y además es lo
               que un reclutador quiere saber. */}
-          <Tarjeta className="lg:col-span-2" retraso={360}>
+          <Tarjeta className="lg:col-span-3" retraso={360}>
             <p className="text-pretty leading-relaxed text-tinta/85">
               {t({
                 en: 'The work I like: systems where someone\'s money, access or records are on the line. That is where the details stop being details.',
@@ -286,7 +255,15 @@ export function RejillaPersonal() {
                   <path d="M20 21 L20 44 M20 32 L9 26 M20 32 L31 26 M20 44 L11 58 M20 44 L29 58" />
                 </g>
               </svg>
-              <p className="mt-2 font-mono text-lg text-tinta">{personal.estatura.cm} cm</p>
+              {/* Metros en español, pies y pulgadas en inglés: 172 cm no le
+                  dice nada a quien mide en pies, y ese es medio público. */}
+              <p className="mt-2 font-mono text-lg text-tinta">
+                {idioma === 'es'
+                  ? `${(personal.estatura.cm / 100).toFixed(2)} m`
+                  : `${Math.floor(personal.estatura.cm / 2.54 / 12)}'${Math.round(
+                      (personal.estatura.cm / 2.54) % 12,
+                    )}"`}
+              </p>
               <p className="mt-1 text-xs text-tenue">{t(personal.estatura.remate)}</p>
             </Tarjeta>
           )}
