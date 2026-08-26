@@ -62,6 +62,10 @@ export function Encabezado() {
           {/* Contacto se queda visible también en móvil: es la acción que
               queremos que sea fácil. El "volver" no, porque el logo ya lleva
               a la portada. */}
+          <a href="/#sobre-mi" className={`${boton} max-sm:hidden`}>
+            {t(ui.navSobreMi)}
+          </a>
+
           <a href="/#contacto" className={boton}>
             {t(ui.navContacto)}
           </a>

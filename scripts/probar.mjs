@@ -170,6 +170,44 @@ revisar('con RLS encendido no devuelve filas', conRlsEncendido.includes('(0 rows
 revisar('con RLS encendido la escritura falla', conRlsEncendido.includes('violates row-level security'))
 revisar('ya no se filtran nombres', !conRlsEncendido.includes('Persona Ejemplo Uno'))
 
+// ------------------------------------------------------- Sección personal
+console.log('\nSobre mí')
+await pagina.goto(BASE, { waitUntil: 'networkidle2' })
+await esperar(600)
+await pagina.evaluate(() =>
+  document.querySelector('#sobre-mi')?.scrollIntoView({ behavior: 'instant', block: 'start' }),
+)
+await esperar(900)
+
+const cuerpoPersonal = await texto()
+revisar(
+  'calcula la distancia hasta quien visita',
+  /a unos [\d,]+ km de ti/.test(cuerpoPersonal),
+  cuerpoPersonal.match(/a unos ([\d,]+ km) de ti/)?.[1],
+)
+revisar('dice que no usa la IP', cuerpoPersonal.includes('no con tu IP'))
+revisar('muestra la hora de Monterrey', /\d{1,2}:\d{2}/.test(cuerpoPersonal))
+
+const globo = await pagina.evaluate(() => {
+  const svgs = [...document.querySelectorAll('#sobre-mi svg')]
+  const g = svgs.find((s) => s.querySelectorAll('path').length > 10)
+  return g ? g.querySelectorAll('path').length : 0
+})
+revisar('el globo dibuja su retícula', globo > 10, `${globo} trazos`)
+
+// Los ojos del avatar tienen que moverse al mover el cursor.
+const antes = await pagina.evaluate(
+  () => document.querySelector('#sobre-mi [data-pupilas]')?.getAttribute('style') ?? '',
+)
+await pagina.mouse.move(50, 50)
+await esperar(500)
+await pagina.mouse.move(1300, 750)
+await esperar(700)
+const despues = await pagina.evaluate(
+  () => document.querySelector('#sobre-mi [data-pupilas]')?.getAttribute('style') ?? '',
+)
+revisar('los ojos del avatar siguen al cursor', antes !== despues)
+
 // ------------------------------------------------------------------- Teclado
 console.log('\nAccesibilidad')
 await pagina.goto(BASE, { waitUntil: 'networkidle2' })

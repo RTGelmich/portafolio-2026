@@ -16,7 +16,7 @@ Quien lo visita puede meter la mano en el problema real.
 | Total Blocking Time | 30 ms | 0 ms |
 | Cumulative Layout Shift | 0.017 | 0 |
 
-JavaScript inicial: **90 kB comprimidos**. El resto viaja bajo demanda.
+JavaScript inicial: **96 kB comprimidos**. El resto viaja bajo demanda.
 
 ## Las seis demos
 
@@ -65,7 +65,7 @@ npm run dev       # servidor de desarrollo
 npm run build     # genera sitemap + typecheck + build
 npm run preview   # sirve el build de producción
 npm run lint
-npm run probar    # 26 pruebas e2e sobre los seis widgets, teclado y reduced-motion
+npm run probar    # 32 pruebas e2e sobre los seis widgets, la sección personal, teclado y reduced-motion
 npm run og        # regenera public/og.png
 ```
 

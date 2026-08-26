@@ -34,6 +34,11 @@ export const ui = {
     es: 'Arrastra para mover el campo',
   },
 
+  sobreMiTitulo: {
+    en: 'Some things about me that are not projects.',
+    es: 'Unas cosas sobre mí que no son proyectos.',
+  },
+
   seccionTrabajoEyebrow: { en: 'Selected work', es: 'Trabajo seleccionado' },
   seccionTrabajoTitulo: {
     en: "Don't take my word for it — play with it.",
