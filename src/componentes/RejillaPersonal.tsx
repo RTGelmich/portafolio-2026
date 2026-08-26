@@ -1,12 +1,15 @@
-import { useEffect, useMemo, useState, type ReactNode } from 'react'
+import { Suspense, lazy, useEffect, useMemo, useState, type ReactNode } from 'react'
 
 import { esteSitio, personal } from '../content/personal'
 import { ui } from '../content/ui'
 import { useIdioma } from '../i18n/idioma'
 import { ubicacionDelVisitante } from '../lib/distancia'
 import { Avatar } from './Avatar'
-import { Globo } from './Globo'
 import { Revelar } from './Revelar'
+
+// Los contornos de tierra son ~9 kB comprimidos y el globo vive debajo del
+// pliegue: no tienen por qué estar en el bundle de la portada.
+const Globo = lazy(() => import('./Globo').then((m) => ({ default: m.Globo })))
 
 function Tarjeta({
   children,
@@ -83,8 +86,12 @@ export function RejillaPersonal() {
         <div className="mt-12 grid auto-rows-[minmax(11rem,auto)] gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {/* El globo: la tarjeta grande y la única que sabe algo de quien mira. */}
           <Tarjeta className="sm:col-span-2 sm:row-span-2">
-            <div className="mx-auto w-full max-w-56">
-              <Globo visitante={visitante} />
+            <div className="mx-auto aspect-square w-full max-w-56">
+              {/* aspect-square reserva el hueco: sin él, el globo empuja el
+                  texto al terminar de cargar y cuenta como layout shift. */}
+              <Suspense fallback={null}>
+                <Globo visitante={visitante} />
+              </Suspense>
             </div>
 
             <p className="mt-4 text-pretty text-sm leading-relaxed text-tinta/85">

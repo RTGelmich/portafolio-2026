@@ -188,12 +188,14 @@ revisar(
 revisar('dice que no usa la IP', cuerpoPersonal.includes('no con tu IP'))
 revisar('muestra la hora de Monterrey', /\d{1,2}:\d{2}/.test(cuerpoPersonal))
 
-const globo = await pagina.evaluate(() => {
-  const svgs = [...document.querySelectorAll('#sobre-mi svg')]
-  const g = svgs.find((s) => s.querySelectorAll('path').length > 10)
-  return g ? g.querySelectorAll('path').length : 0
-})
-revisar('el globo dibuja su retícula', globo > 10, `${globo} trazos`)
+// Los contornos del lado oculto del globo se descartan, así que el número
+// depende de hacia dónde esté girado. Lo que importa es que dibuje ambos.
+const globo = await pagina.evaluate(() => ({
+  tierra: document.querySelectorAll('#sobre-mi [data-tierra] path').length,
+  reticula: document.querySelectorAll('#sobre-mi [data-reticula] path').length,
+}))
+revisar('el globo dibuja sus continentes', globo.tierra > 20, `${globo.tierra} contornos`)
+revisar('el globo dibuja su retícula', globo.reticula > 10, `${globo.reticula} líneas`)
 
 // Los ojos del avatar tienen que moverse al mover el cursor.
 const antes = await pagina.evaluate(

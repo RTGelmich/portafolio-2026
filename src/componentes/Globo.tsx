@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 
 import { ORIGEN, type Ubicacion } from '../lib/distancia'
 import { aTrazo, circuloMaximo, ortografica, puntoMedio, reticula } from '../lib/globo'
+import { TIERRA } from '../lib/tierra'
 
 const TAMANO = 240
 const CENTRO = TAMANO / 2
@@ -12,7 +13,7 @@ const RADIO = TAMANO / 2 - 14
  * Todo se calcula al vuelo; no hay imagen de mapa ni datos de países.
  */
 export function Globo({ visitante }: { visitante: Ubicacion | null }) {
-  const { trazos, arco, origen, destino } = useMemo(() => {
+  const { tierra, trazos, arco, origen, destino } = useMemo(() => {
     // Centramos el globo en el punto medio del arco para que los dos extremos
     // queden del lado visible. Sin esto, un visitante en Tokio cae en la cara
     // de atrás y no se ve.
@@ -24,6 +25,17 @@ export function Globo({ visitante }: { visitante: Ubicacion | null }) {
       ortografica(lat, lon, centro.lat, centro.lon)
 
     return {
+      // Los contornos van cerrados (Z) para poder rellenarlos. Un anillo que
+      // cruza al lado oculto queda cortado por aTrazo, y cerrar cada tramo por
+      // separado es justo lo que da el recorte contra el borde del globo.
+      tierra: TIERRA.map((anillo) =>
+        aTrazo(
+          anillo.map((punto) => proyectar(punto.lat, punto.lon)),
+          RADIO,
+          CENTRO,
+        ),
+      ).filter(Boolean),
+
       trazos: reticula().map((linea) =>
         aTrazo(
           linea.map((punto) => proyectar(punto.lat, punto.lon)),
@@ -54,7 +66,15 @@ export function Globo({ visitante }: { visitante: Ubicacion | null }) {
     <svg viewBox={`0 0 ${TAMANO} ${TAMANO}`} className="size-full" aria-hidden="true">
       <circle cx={CENTRO} cy={CENTRO} r={RADIO} className="fill-superficie-alta" />
 
-      <g className="stroke-tenue/30" fill="none" strokeWidth="0.9">
+      {/* Continentes. Van debajo de la retícula para que los meridianos se
+          lean encima de la tierra, como en un globo de verdad. */}
+      <g data-tierra className="fill-tenue/25">
+        {tierra.map((d, i) => (
+          <path key={i} d={d} />
+        ))}
+      </g>
+
+      <g data-reticula className="stroke-tenue/25" fill="none" strokeWidth="0.9">
         {trazos.map((d, i) => (
           <path key={i} d={d} />
         ))}
