@@ -145,8 +145,13 @@ await pagina.goto(`${BASE}/trabajo/banco-azteca`, { waitUntil: 'networkidle2' })
 await esperar(2000)
 
 const cuerpoAzteca = await textoBajo()
-const contador = cuerpoAzteca.match(/cuentas abiertas hoy\s*\n\s*([\d,]+)/)
+const contador = cuerpoAzteca.match(/operaciones hoy\s*\n\s*([\d,]+)/)
 revisar('el contador avanza', contador && Number(contador[1].replace(/,/g, '')) > 0, contador?.[1])
+revisar(
+  'los reintentos aparecen',
+  /(\d+) necesitaron reintento/.test(cuerpoAzteca) &&
+    Number(cuerpoAzteca.match(/(\d+) necesitaron reintento/)[1]) > 0,
+)
 revisar('marca la cifra como ilustrativa', cuerpoAzteca.includes('ilustrativas'))
 
 // ------------------------------------------------------------------- Sandate

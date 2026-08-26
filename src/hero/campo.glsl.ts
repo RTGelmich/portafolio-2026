@@ -103,10 +103,11 @@ export const fragmentShader = /* glsl */ `
 
     float valor = fbm(p * 1.15 + q * 0.95 + vec2(t * 0.5, 0.0)) * 0.5 + 0.5;
 
-    // El matiz recorre su rango DENTRO de la banda visible. Si se usara el
-    // mismo umbral para el matiz y para la visibilidad, el primer acento
-    // caería siempre donde la mezcla vale cero y no se vería nunca.
-    vec3 color = mix(uColorA, uColorB, smoothstep(0.38, 0.72, valor));
+    // El matiz recorre su rango DENTRO de la banda visible, y por eso arranca
+    // MÁS ARRIBA que el umbral de visibilidad. Con un rango que empiece antes,
+    // el primer acento cae donde la mezcla todavía vale casi cero y el campo
+    // se ve de un solo color por más que haya dos declarados.
+    vec3 color = mix(uColorA, uColorB, smoothstep(0.52, 0.86, valor));
     color = mix(uColorFondo, color, smoothstep(0.30, 0.86, valor) * uIntensidad);
 
     // Viñeta: apaga las orillas para que el encabezado y el texto respiren.

@@ -21,12 +21,14 @@ const paletas: Record<Tema, { fondo: [number, number, number]; a: [number, numbe
     b: [0.659, 0.427, 1.0],
     intensidad: 0.85,
   },
-  // En claro el campo va mucho más tenue o se come el texto.
+  // En claro hay que ir al revés que en oscuro: sobre un fondo casi blanco,
+  // un acento pálido y de baja intensidad simplemente no se ve. Van colores
+  // más saturados; el texto lo sigue protegiendo el degradado de la izquierda.
   claro: {
-    fondo: [0.965, 0.965, 0.98],
-    a: [0.561, 0.643, 1.0],
-    b: [0.765, 0.635, 1.0],
-    intensidad: 0.5,
+    fondo: [0.957, 0.957, 0.973],
+    a: [0.353, 0.443, 0.925],
+    b: [0.612, 0.404, 0.906],
+    intensidad: 0.78,
   },
 }
 

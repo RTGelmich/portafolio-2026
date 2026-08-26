@@ -15,8 +15,8 @@ export const ui = {
   cambiarIdioma: { en: 'EN — switch to Spanish', es: 'ES — cambiar a inglés' },
 
   heroRol: {
-    en: 'Full-stack engineer · Remote',
-    es: 'Ingeniero full-stack · Remoto',
+    en: 'Full-stack engineer',
+    es: 'Ingeniero full-stack',
   },
   heroTitulo: {
     en: 'I ship systems people actually run their business on.',
@@ -56,12 +56,12 @@ export const ui = {
   miRol: { en: 'My role', es: 'Mi rol' },
 
   contactoTitulo: {
-    en: "Looking for a remote role. Let's talk.",
-    es: 'Busco trabajo remoto. Hablemos.',
+    en: "Let's talk.",
+    es: 'Hablemos.',
   },
   contactoBajada: {
-    en: 'Open to full-time remote positions. Fastest way to reach me is WhatsApp.',
-    es: 'Abierto a posiciones remotas de tiempo completo. La vía más rápida es WhatsApp.',
+    en: 'If something here is useful to you, write to me. WhatsApp is the fastest way.',
+    es: 'Si algo de aquí te sirve, escríbeme. La vía más rápida es WhatsApp.',
   },
 
   hechoCon: {

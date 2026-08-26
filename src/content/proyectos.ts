@@ -228,14 +228,44 @@ export const proyectos: Proyecto[] = [
     },
     periodo: '2024 — 2026',
     resumen: {
-      en: 'Account opening at national retail-bank scale — thousands of new accounts every single day, across branches.',
-      es: 'Apertura de cuentas a escala de banca minorista nacional — miles de cuentas nuevas cada día, en toda la red de sucursales.',
+      en: 'Origination front end at national retail-bank scale: account opening, investments and insurance — thousands of operations every single day, across the branch network.',
+      es: 'Front de originación a escala de banca minorista nacional: apertura de cuentas, inversiones y seguros — miles de operaciones cada día, en toda la red de sucursales.',
     },
     problema: {
-      en: 'Opening a bank account is a regulated, multi-step process with identity checks, document capture and downstream systems that all have to agree. At thousands of openings a day, the difference between a flow that mostly works and one that actually works is measured in hours of branch staff time and abandoned customers.',
-      es: 'Abrir una cuenta bancaria es un proceso regulado, de varios pasos, con validación de identidad, captura de documentos y sistemas río abajo que tienen que coincidir. A miles de aperturas diarias, la diferencia entre un flujo que casi funciona y uno que sí funciona se mide en horas del personal de sucursal y en clientes que abandonan.',
+      en: 'Opening a bank account, taking out an investment or issuing an insurance policy are regulated, multi-step processes: identity checks, document capture, and several back-end systems that all have to end up agreeing. At thousands of operations a day, the gap between a flow that mostly works and one that actually works is measured in hours of branch staff time and in customers who walk out.',
+      es: 'Abrir una cuenta, contratar una inversión o emitir un seguro son procesos regulados de varios pasos: validación de identidad, captura de documentos y varios sistemas de fondo que tienen que terminar coincidiendo. A miles de operaciones diarias, la distancia entre un flujo que casi funciona y uno que sí funciona se mide en horas del personal de sucursal y en clientes que se van.',
     },
     decisiones: [
+      {
+        titulo: {
+          en: 'One state store for a flow that spans many screens',
+          es: 'Un solo estado para un flujo que cruza muchas pantallas',
+        },
+        detalle: {
+          en: 'The data captured in step two decides which fields even exist in step six, and the same customer record feeds three different products. Keeping that in a central store instead of passing it down screen by screen is what makes the flow auditable — you can look at one place and know exactly what the branch has captured so far.',
+          es: 'Lo que se captura en el paso dos decide qué campos existen siquiera en el paso seis, y el mismo expediente del cliente alimenta tres productos distintos. Tener eso en un estado central en vez de irlo pasando pantalla por pantalla es lo que vuelve el flujo auditable: miras un solo lugar y sabes exactamente qué lleva capturado la sucursal.',
+        },
+      },
+      {
+        titulo: {
+          en: 'Retries are a feature, not error handling',
+          es: 'Los reintentos son una funcionalidad, no manejo de errores',
+        },
+        detalle: {
+          en: 'At this volume a failure that hits one call in a thousand happens many times a day, and branch connections drop. So the flow retries and picks up where it left off instead of throwing the customer back to step one. Making a client sign the same paperwork twice because a request timed out is not a technical problem, it is a lost customer.',
+          es: 'A este volumen, una falla que pega en una de cada mil llamadas ocurre muchas veces al día, y las conexiones de sucursal se caen. Por eso el flujo reintenta y retoma donde se quedó en vez de aventar al cliente al paso uno. Hacer que alguien vuelva a firmar todo porque una petición expiró no es un problema técnico, es un cliente perdido.',
+        },
+      },
+      {
+        titulo: {
+          en: 'The API answer and the screen answer are rarely the same shape',
+          es: 'Lo que responde la API y lo que necesita la pantalla casi nunca tienen la misma forma',
+        },
+        detalle: {
+          en: 'Core banking services answer with the shape the core banking system needs, not the shape a form needs. Normalising that at the boundary — one place that translates in and out — keeps the product code readable and means a change on the service side does not ripple through every screen.',
+          es: 'Los servicios de core bancario responden con la forma que necesita el core, no con la que necesita un formulario. Normalizar eso en la frontera —un solo lugar que traduce de ida y de vuelta— mantiene legible el código de producto y hace que un cambio del lado del servicio no se propague a todas las pantallas.',
+        },
+      },
       {
         titulo: {
           en: 'Optimise for the worst branch, not the best',
@@ -246,38 +276,29 @@ export const proyectos: Proyecto[] = [
           es: 'Los objetivos de rendimiento salieron del hardware más lento y la conexión más débil de la red, porque esa sucursal es donde se forma la fila.',
         },
       },
-      {
-        titulo: {
-          en: 'Every step has to be resumable',
-          es: 'Cada paso tiene que poder retomarse',
-        },
-        detalle: {
-          en: 'At this volume, edge cases are not edge cases — a failure that hits one in a thousand openings happens several times a day. State that survives a refresh is not a nice-to-have.',
-          es: 'A este volumen, los casos raros no son raros — una falla que pega en una de cada mil aperturas ocurre varias veces al día. Que el estado sobreviva a una recarga no es un lujo.',
-        },
-      },
     ],
     resultado: {
-      en: 'Account opening running at national scale in daily production use across the branch network.',
-      es: 'Apertura de cuentas operando a escala nacional, en uso productivo diario a lo largo de la red de sucursales.',
+      en: 'Three product lines running in daily production use across the national branch network.',
+      es: 'Tres líneas de producto en uso productivo diario a lo largo de la red nacional de sucursales.',
     },
     metricas: [
-      { valor: '1000s', etiqueta: { en: 'accounts opened per day', es: 'cuentas abiertas por día' } },
-      { valor: 'Nacional', etiqueta: { en: 'branch network coverage', es: 'cobertura de la red de sucursales' } },
+      { valor: '1000s', etiqueta: { en: 'operations per day', es: 'operaciones por día' } },
+      { valor: '3', etiqueta: { en: 'product lines: accounts, investments, insurance', es: 'líneas: cuentas, inversiones, seguros' } },
+      { valor: 'Nacional', etiqueta: { en: 'branch network coverage', es: 'cobertura de la red' } },
     ],
     rol: {
-      en: 'Frontend engineer on the account opening product.',
-      es: 'Ingeniero frontend en el producto de apertura de cuentas.',
+      en: 'Frontend engineer on the origination flows — state, API integration and the retry behaviour.',
+      es: 'Ingeniero frontend en los flujos de originación — estado, integración con APIs y el comportamiento de reintentos.',
     },
-    stack: ['React', 'TypeScript', 'REST APIs'],
+    stack: ['JavaScript', 'React', 'Redux', 'REST APIs'],
     widget: 'throughput',
     widgetTitulo: {
       en: 'What "thousands a day" actually looks like',
       es: 'Cómo se ve de verdad "miles al día"',
     },
     widgetBajada: {
-      en: 'Scale is easy to write on a CV and hard to feel. This runs at real rate — every dot is an account opening.',
-      es: 'La escala es fácil de escribir en un CV y difícil de sentir. Esto corre al ritmo real — cada punto es una apertura de cuenta.',
+      en: 'Scale is easy to write on a CV and hard to feel. This runs at real rate — every dot is an operation, and the red ones are the calls that failed and had to be retried.',
+      es: 'La escala es fácil de escribir en un CV y difícil de sentir. Esto corre al ritmo real — cada punto es una operación, y los rojos son las llamadas que fallaron y hubo que reintentar.',
     },
     confidencial: true,
   },
