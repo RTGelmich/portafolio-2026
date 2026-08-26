@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router'
 import { ui } from '../content/ui'
 import { useIdioma } from '../i18n/idioma'
 import { useTema } from '../tema/tema'
+import { Logo } from './Logo'
 
 function IconoSol() {
   return (
@@ -37,11 +38,18 @@ export function Encabezado() {
   return (
     <header className="sticky top-0 z-50 border-b border-borde bg-lienzo/85 backdrop-blur-md">
       <div className="contenedor flex h-16 items-center justify-between gap-4">
+        {/* Sin aria-label: el texto visible ya es un buen nombre accesible, y
+            uno distinto rompería la coincidencia que exige WCAG 2.5.3. En
+            pantallas muy angostas el texto se oculta con sr-only y no con
+            hidden, para que el enlace nunca se quede sin nombre. */}
         <Link
           to="/"
-          className="font-mono text-sm font-medium tracking-tight text-tinta transition-opacity hover:opacity-70"
+          className="grupo-marca flex items-center gap-2.5 text-tinta transition-opacity hover:opacity-80"
         >
-          angel<span className="text-acento">.</span>flores
+          <Logo className="h-5 w-auto" />
+          <span className="font-mono text-sm font-medium tracking-tight max-[380px]:sr-only">
+            angel<span className="text-acento">.</span>flores
+          </span>
         </Link>
 
         <nav className="flex items-center gap-2" aria-label={t(ui.navTrabajo)}>

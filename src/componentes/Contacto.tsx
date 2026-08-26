@@ -1,4 +1,5 @@
 import { contacto } from '../content/contacto'
+import { Revelar } from './Revelar'
 import { ui } from '../content/ui'
 import { useIdioma } from '../i18n/idioma'
 
@@ -16,14 +17,17 @@ export function Contacto() {
   return (
     <section id="contacto" className="scroll-mt-24 border-t border-borde py-24">
       <div className="contenedor">
-        <h2 className="max-w-2xl text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-          {t(ui.contactoTitulo)}
-        </h2>
-        <p className="mt-4 max-w-xl text-tenue">{t(ui.contactoBajada)}</p>
+        <Revelar>
+          <h2 className="max-w-2xl text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
+            {t(ui.contactoTitulo)}
+          </h2>
+          <p className="mt-4 max-w-xl text-tenue">{t(ui.contactoBajada)}</p>
+        </Revelar>
 
         <ul className="mt-10 grid gap-3 sm:grid-cols-2">
-          {enlaces.map((enlace) => (
+          {enlaces.map((enlace, indice) => (
             <li key={enlace.etiqueta}>
+              <Revelar retraso={(indice % 2) * 80}>
               <a
                 href={enlace.href}
                 target={enlace.href.startsWith('mailto:') ? undefined : '_blank'}
@@ -44,7 +48,8 @@ export function Contacto() {
                 >
                   →
                 </span>
-              </a>
+                </a>
+              </Revelar>
             </li>
           ))}
         </ul>

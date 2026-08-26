@@ -16,7 +16,7 @@ Quien lo visita puede meter la mano en el problema real.
 | Total Blocking Time | 30 ms | 0 ms |
 | Cumulative Layout Shift | 0.017 | 0 |
 
-JavaScript inicial: **88 kB comprimidos**. El resto viaja bajo demanda.
+JavaScript inicial: **90 kB comprimidos**. El resto viaja bajo demanda.
 
 ## Las seis demos
 

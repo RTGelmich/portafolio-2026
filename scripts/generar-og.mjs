@@ -25,7 +25,10 @@ const html = `<!doctype html>
     padding: 76px 80px;
     display: flex; flex-direction: column; justify-content: space-between;
   }
-  .marca { font-family: ui-monospace, Menlo, monospace; font-size: 20px; color: #9a9aa8; }
+  .marca {
+    display: flex; align-items: center; gap: 14px;
+    font-family: ui-monospace, Menlo, monospace; font-size: 20px; color: #9a9aa8;
+  }
   .marca b { color: #f1f1f5; font-weight: 500; }
   .punto { color: #6f8cff; }
   h1 { font-size: 66px; line-height: 1.06; letter-spacing: -0.025em; font-weight: 600; max-width: 950px; }
@@ -37,7 +40,15 @@ const html = `<!doctype html>
   }
 </style></head>
 <body>
-  <div class="marca">angel<span class="punto">.</span><b>flores</b> — full-stack engineer</div>
+  <div class="marca">
+    <svg viewBox="0 0 40 32" height="30" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 28 L13 4 L23 28" stroke="#f1f1f5"/>
+      <path d="M7.6 20 L18.4 20" stroke="#f1f1f5"/>
+      <path d="M23 28 L23 4 L36 4" stroke="#6f8cff"/>
+      <path d="M23 15.5 L32 15.5" stroke="#6f8cff"/>
+    </svg>
+    <span>angel<span class="punto">.</span><b>flores</b> — full-stack engineer</span>
+  </div>
   <div>
     <h1>I ship systems people actually run their business on.</h1>
     <p>Six case studies. Every one of them playable.</p>

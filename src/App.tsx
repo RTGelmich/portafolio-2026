@@ -32,6 +32,12 @@ function ReiniciarScroll() {
 export function App() {
   const { t } = useIdioma()
 
+  // El grano vive en <body> vía clase para que cubra también el hero y el pie.
+  useEffect(() => {
+    document.body.classList.add('grano')
+    return () => document.body.classList.remove('grano')
+  }, [])
+
   return (
     <>
       <a
