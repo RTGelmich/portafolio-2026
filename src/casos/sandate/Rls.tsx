@@ -11,11 +11,13 @@ import { Marco } from '../Marco'
  * Postgres cuando una política bloquea la escritura.
  */
 
+// Nombres y correos inventados, sin relación con personas ni dominios reales
+// del cliente. Lo que se está enseñando es la consulta, no los datos.
 const filas = [
-  { id: 'e3a1…', nombre: 'María T. Alcántara', correo: 'maria.***@gmail.com', rol: 'cliente' },
-  { id: '7b92…', nombre: 'Jorge Núñez Rey', correo: 'jnunez***@hotmail.com', rol: 'cliente' },
-  { id: 'c418…', nombre: 'Diana S.', correo: 'diana***@sandate.mx', rol: 'admin' },
-  { id: 'f5d7…', nombre: 'Luis A. Peña', correo: 'lpena***@outlook.com', rol: 'asesor' },
+  { id: 'e3a1…', nombre: 'Persona Ejemplo Uno', correo: 'ejemplo1@example.com', rol: 'cliente' },
+  { id: '7b92…', nombre: 'Persona Ejemplo Dos', correo: 'ejemplo2@example.com', rol: 'cliente' },
+  { id: 'c418…', nombre: 'Persona Ejemplo Tres', correo: 'ejemplo3@example.com', rol: 'admin' },
+  { id: 'f5d7…', nombre: 'Persona Ejemplo Cuatro', correo: 'ejemplo4@example.com', rol: 'asesor' },
 ]
 
 export default function Rls() {

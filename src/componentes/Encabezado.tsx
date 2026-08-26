@@ -46,12 +46,15 @@ export function Encabezado() {
 
         <nav className="flex items-center gap-2" aria-label={t(ui.navTrabajo)}>
           {!enInicio && (
-            <Link to="/" className={`${boton} hidden sm:inline-flex`}>
+            <Link to="/" className={`${boton} max-sm:hidden`}>
               ← {t(ui.volver)}
             </Link>
           )}
 
-          <a href="/#contacto" className={`${boton} hidden sm:inline-flex`}>
+          {/* Contacto se queda visible también en móvil: es la acción que
+              queremos que sea fácil. El "volver" no, porque el logo ya lleva
+              a la portada. */}
+          <a href="/#contacto" className={boton}>
             {t(ui.navContacto)}
           </a>
 

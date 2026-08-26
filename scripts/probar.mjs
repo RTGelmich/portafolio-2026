@@ -155,7 +155,7 @@ await pagina.goto(`${BASE}/trabajo/sandate`, { waitUntil: 'networkidle2' })
 await esperar(400)
 
 const conRlsApagado = await texto()
-revisar('con RLS apagado se ven las filas', conRlsApagado.includes('María T. Alcántara'))
+revisar('con RLS apagado se ven las filas', conRlsApagado.includes('Persona Ejemplo Uno'))
 revisar('con RLS apagado la escalada funciona', conRlsApagado.includes('ahora eres administrador'))
 
 await clicPorTexto('button', 'RLS OFF')
@@ -163,7 +163,7 @@ await esperar(300)
 const conRlsEncendido = await texto()
 revisar('con RLS encendido no devuelve filas', conRlsEncendido.includes('(0 rows)'))
 revisar('con RLS encendido la escritura falla', conRlsEncendido.includes('violates row-level security'))
-revisar('ya no se filtran nombres', !conRlsEncendido.includes('María T. Alcántara'))
+revisar('ya no se filtran nombres', !conRlsEncendido.includes('Persona Ejemplo Uno'))
 
 // ------------------------------------------------------------------- Teclado
 console.log('\nAccesibilidad')
