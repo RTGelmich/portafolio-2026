@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en" data-tema="oscuro" style="color-scheme: dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <title>Angel Flores — Full-stack engineer</title>
+    <meta
+      name="description"
+      content="Full-stack engineer. I build systems businesses actually run on: gym operations, bank account opening, financial billing. Every case study is playable."
+    />
+
+    <!-- %SITIO% lo sustituye el plugin urlDelSitio a partir de src/content/sitio.ts -->
+    <link rel="canonical" href="%SITIO%/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="%SITIO%/" />
+    <meta property="og:title" content="Angel Flores — Full-stack engineer" />
+    <meta
+      property="og:description"
+      content="I build systems businesses actually run on. Every case study is playable."
+    />
+    <!-- Absoluta a propósito: varios scrapers no resuelven rutas relativas. -->
+    <meta property="og:image" content="%SITIO%/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script>
+      // Antes del primer pixel: si no, el tema claro parpadea en negro al cargar.
+      try {
+        var guardado = localStorage.getItem('portafolio:tema')
+        var tema =
+          guardado === 'claro' || guardado === 'oscuro'
+            ? guardado
+            : matchMedia('(prefers-color-scheme: light)').matches
+              ? 'claro'
+              : 'oscuro'
+        document.documentElement.dataset.tema = tema
+        document.documentElement.style.colorScheme = tema === 'claro' ? 'light' : 'dark'
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

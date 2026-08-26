@@ -1,0 +1,212 @@
+// Prueba de extremo a extremo de los seis widgets, más un repaso de teclado
+// y de "reducir movimiento". No sustituye a mirar el sitio, pero atrapa las
+// regresiones que sí importan: que la lógica de cada demo siga respondiendo.
+//
+// Uso: node scripts/probar.mjs [url-base]
+import puppeteer from 'puppeteer-core'
+
+const BASE = process.argv[2] ?? 'http://localhost:5174'
+const NAVEGADOR = '/Applications/Brave Browser.app/Contents/MacOS/Brave Browser'
+
+const resultados = []
+
+function revisar(nombre, condicion, detalle = '') {
+  resultados.push({ nombre, ok: Boolean(condicion), detalle })
+  console.log(`${condicion ? '  ok  ' : ' FALLA'} ${nombre}${detalle ? ` — ${detalle}` : ''}`)
+}
+
+const navegador = await puppeteer.launch({
+  executablePath: NAVEGADOR,
+  headless: true,
+  args: ['--enable-unsafe-swiftshader', '--no-sandbox'],
+})
+
+const pagina = await navegador.newPage()
+await pagina.setViewport({ width: 1440, height: 900 })
+
+const erroresConsola = []
+pagina.on('pageerror', (e) => erroresConsola.push(e.message))
+pagina.on('console', (m) => {
+  if (m.type() === 'error') erroresConsola.push(m.text())
+})
+
+// Idioma fijo en español para que las aserciones de texto no dependan del locale.
+await pagina.evaluateOnNewDocument(() => {
+  localStorage.setItem('portafolio:idioma', 'es')
+  localStorage.setItem('portafolio:tema', 'oscuro')
+})
+
+const esperar = (ms) => new Promise((r) => setTimeout(r, ms))
+
+/** Hace clic en el primer elemento cuyo texto contenga la cadena dada. */
+async function clicPorTexto(selector, texto) {
+  const encontrado = await pagina.evaluate(
+    (sel, txt) => {
+      const nodo = [...document.querySelectorAll(sel)].find((n) =>
+        n.textContent?.includes(txt),
+      )
+      if (!nodo) return false
+      nodo.click()
+      return true
+    },
+    selector,
+    texto,
+  )
+  if (!encontrado) throw new Error(`No se encontró ${selector} con texto "${texto}"`)
+  await esperar(120)
+}
+
+// innerText devuelve el texto YA transformado por CSS, y las etiquetas
+// `eyebrow` van en mayúsculas. Comparamos siempre en minúsculas para no
+// escribir aserciones que dependen de una decisión de estilo.
+const texto = () => pagina.evaluate(() => document.body.innerText)
+const textoBajo = async () => (await texto()).toLowerCase()
+
+// ---------------------------------------------------------------- Gladiadores
+console.log('\nGladiadores — acceso por QR')
+await pagina.goto(`${BASE}/trabajo/gladiadores`, { waitUntil: 'networkidle2' })
+await esperar(500)
+
+await clicPorTexto('button', 'Ana Rivas')
+revisar('primer escaneo permite el acceso', (await texto()).includes('Acceso permitido'))
+
+await clicPorTexto('button', 'Ana Rivas')
+revisar('segundo escaneo lo bloquea el anti-passback', (await texto()).includes('Ya escaneó'))
+revisar('dice cuánto falta para reintentar', /Reintenta en \d+ min/.test(await texto()))
+
+await clicPorTexto('button', 'Avanzar 5 minutos')
+await clicPorTexto('button', 'Ana Rivas')
+revisar('pasada la ventana vuelve a entrar', (await texto()).includes('Acceso permitido'))
+
+await clicPorTexto('button', 'Beto Cruz')
+revisar('membresía vencida se rechaza', (await texto()).includes('Membresía vencida'))
+
+// -------------------------------------------------------------------- Gasera
+console.log('\nGasera — trampa del redondeo')
+await pagina.goto(`${BASE}/trabajo/distribuidora-gas`, { waitUntil: 'networkidle2' })
+await esperar(400)
+
+await clicPorTexto('button', 'Facturar 1000')
+await esperar(200)
+const cuerpoGasera = await texto()
+const descuadre = cuerpoGasera.match(/Descuadre\s*\n?\s*(-?\$[\d,]+\.\d{2})/)
+revisar('facturar 1000 recibos produce descuadre', Boolean(descuadre), descuadre?.[1] ?? 'sin match')
+revisar(
+  'el descuadre no es cero',
+  descuadre && !descuadre[1].endsWith('0.00'),
+  descuadre?.[1] ?? '',
+)
+revisar('reporta cuántos recibos empataron', /de 1000 recibos cayeron/.test(cuerpoGasera))
+
+// ------------------------------------------------------------------ CIPROMEX
+console.log('\nCIPROMEX — paywall')
+await pagina.goto(`${BASE}/trabajo/cipromex`, { waitUntil: 'networkidle2' })
+await esperar(400)
+
+for (let i = 0; i < 11; i++) {
+  await pagina.evaluate(() => {
+    const opciones = [...document.querySelectorAll('li > button')].filter(
+      (b) => !b.disabled && b.closest('ul')?.previousElementSibling?.tagName === 'H3',
+    )
+    opciones[0]?.click()
+  })
+  await esperar(620)
+}
+
+const cuerpoPaywall = await texto()
+revisar('a la 11ª pregunta corta el paywall', cuerpoPaywall.includes('LIMITE_DIARIO'))
+revisar('ofrece los planes de pago', cuerpoPaywall.includes('PRO') && cuerpoPaywall.includes('PREMIUM'))
+
+await clicPorTexto('button', 'Reiniciar la demo')
+await esperar(200)
+revisar('el botón de reinicio devuelve el quiz', (await textoBajo()).includes('pregunta 1'))
+
+// ------------------------------------------------------------------- EXPRESS
+console.log('\nEXPRESS — bot de FAQ')
+await pagina.goto(`${BASE}/trabajo/express`, { waitUntil: 'networkidle2' })
+await esperar(400)
+
+await clicPorTexto('button', '¿Cuánto cobran?')
+await esperar(1000)
+revisar('la pregunta de precio se canaliza a un humano', (await texto()).includes('canalizado con asesor'))
+
+await clicPorTexto('button', '¿Afecta a mi pensión?')
+await esperar(1000)
+revisar('la de pensión sí la contesta el bot', (await texto()).includes('IMSS'))
+
+await pagina.type('input[type="text"]', 'donde estan sus oficinas')
+await pagina.keyboard.press('Enter')
+await esperar(1000)
+revisar('texto libre sin acentos también rutea', (await texto()).includes('Roma Norte'))
+
+// -------------------------------------------------------------- Banco Azteca
+console.log('\nBanco Azteca — throughput')
+await pagina.goto(`${BASE}/trabajo/banco-azteca`, { waitUntil: 'networkidle2' })
+await esperar(2000)
+
+const cuerpoAzteca = await textoBajo()
+const contador = cuerpoAzteca.match(/cuentas abiertas hoy\s*\n\s*([\d,]+)/)
+revisar('el contador avanza', contador && Number(contador[1].replace(/,/g, '')) > 0, contador?.[1])
+revisar('marca la cifra como ilustrativa', cuerpoAzteca.includes('ilustrativas'))
+
+// ------------------------------------------------------------------- Sandate
+console.log('\nSandate — RLS')
+await pagina.goto(`${BASE}/trabajo/sandate`, { waitUntil: 'networkidle2' })
+await esperar(400)
+
+const conRlsApagado = await texto()
+revisar('con RLS apagado se ven las filas', conRlsApagado.includes('María T. Alcántara'))
+revisar('con RLS apagado la escalada funciona', conRlsApagado.includes('ahora eres administrador'))
+
+await clicPorTexto('button', 'RLS OFF')
+await esperar(300)
+const conRlsEncendido = await texto()
+revisar('con RLS encendido no devuelve filas', conRlsEncendido.includes('(0 rows)'))
+revisar('con RLS encendido la escritura falla', conRlsEncendido.includes('violates row-level security'))
+revisar('ya no se filtran nombres', !conRlsEncendido.includes('María T. Alcántara'))
+
+// ------------------------------------------------------------------- Teclado
+console.log('\nAccesibilidad')
+await pagina.goto(BASE, { waitUntil: 'networkidle2' })
+await esperar(500)
+
+await pagina.keyboard.press('Tab')
+const primerFoco = await pagina.evaluate(() => document.activeElement?.textContent?.trim())
+revisar('el primer tab llega al salto de contenido', primerFoco?.includes('Saltar'), primerFoco)
+
+let alcanzables = 0
+for (let i = 0; i < 40; i++) {
+  await pagina.keyboard.press('Tab')
+  const visible = await pagina.evaluate(() => {
+    const a = document.activeElement
+    if (!a || a === document.body) return false
+    const caja = a.getBoundingClientRect()
+    return caja.width > 0 && caja.height > 0
+  })
+  if (visible) alcanzables++
+}
+revisar('la navegación por teclado recorre el sitio', alcanzables > 20, `${alcanzables} paradas`)
+
+const sinAlt = await pagina.evaluate(
+  () => [...document.querySelectorAll('img')].filter((i) => !i.alt).length,
+)
+revisar('ninguna imagen sin texto alternativo', sinAlt === 0)
+
+// ------------------------------------------------------- Movimiento reducido
+await pagina.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }])
+await pagina.goto(BASE, { waitUntil: 'networkidle2' })
+await esperar(900)
+const hayCanvas = await pagina.evaluate(() => Boolean(document.querySelector('canvas')))
+revisar('con movimiento reducido no se monta WebGL', !hayCanvas)
+
+// ------------------------------------------------------------------ Resumen
+revisar('ningún error en consola', erroresConsola.length === 0, erroresConsola.join(' | '))
+
+await navegador.close()
+
+const fallas = resultados.filter((r) => !r.ok)
+console.log(`\n${resultados.length - fallas.length}/${resultados.length} pruebas pasaron`)
+if (fallas.length) {
+  console.log('Fallaron:', fallas.map((f) => f.nombre).join(', '))
+  process.exit(1)
+}

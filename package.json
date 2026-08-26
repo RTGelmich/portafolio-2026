@@ -1,0 +1,31 @@
+{
+  "name": "portafolio-angel-flores",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "node scripts/generar-sitemap.mjs && tsc -b && vite build",
+    "preview": "vite preview",
+    "lint": "oxlint src scripts",
+    "probar": "node scripts/probar.mjs",
+    "og": "node scripts/generar-og.mjs"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-router": "^8.3.0",
+    "tailwindcss": "^4.3.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "@vitejs/plugin-react": "^6.1.0",
+    "oxlint": "^1.79.0",
+    "puppeteer-core": "^25.9.0",
+    "typescript": "~6.0.2",
+    "vite": "^8.2.2"
+  }
+}
