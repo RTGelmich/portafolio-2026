@@ -33,6 +33,33 @@ export const personal = {
     escuela: 'FES Aragón, UNAM',
   },
 
+  /**
+   * Credenciales verificables. Cada una lleva su enlace: una credencial que
+   * nadie puede comprobar vale lo mismo que no tenerla.
+   *
+   * OJO con el texto: la de Anthropic es una **insignia de finalización de
+   * curso**, no una certificación profesional. Llamarla "certificación" y que
+   * alguien pique el enlace y lea otra cosa cuesta más que no ponerla.
+   */
+  credenciales: [
+    {
+      nombre: 'Claude Code 101',
+      emisor: 'Claude Academy · Anthropic',
+      fecha: { en: 'Aug 2026', es: 'ago 2026' },
+      tipo: { en: 'Course completion badge', es: 'Insignia de finalización' },
+      url: 'https://academy.claude.com/verify/0ec796ec8302f6a919431d1c7ef99235',
+    },
+  ],
+
+  /**
+   * Herramientas de IA con las que trabaja de verdad. La lista es concreta a
+   * propósito: "domino la IA" no lo puede comprobar nadie, "corre Claude en
+   * producción en el bot de EXPRESS" sí.
+   */
+  ia: {
+    modelos: ['Claude', 'GPT', 'Kimi'],
+  },
+
   /** Teclas que se pintan como keycaps. Cinco caben bien; seis se aprietan. */
   teclas: ['R', 'E', 'A', 'C', 'T'],
 
@@ -77,5 +104,5 @@ export const personal = {
 export const esteSitio = {
   lighthouse: '100',
   jsInicial: '96 kB',
-  pruebas: 35,
+  pruebas: 38,
 }

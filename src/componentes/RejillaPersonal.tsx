@@ -1,4 +1,5 @@
 import { Suspense, lazy, useEffect, useMemo, useState, type ReactNode } from 'react'
+import { Link } from 'react-router'
 
 import { esteSitio, personal } from '../content/personal'
 import { ui } from '../content/ui'
@@ -183,6 +184,51 @@ export function RejillaPersonal() {
               {t({ en: 'e2e tests', es: 'pruebas e2e' })}
             </p>
           </Tarjeta>
+
+          {/* IA: modelos concretos y el proyecto donde uno de ellos corre en
+              producción. Sin ese enlace esta tarjeta sería una afirmación
+              sin respaldo, que es justo lo que el resto del sitio evita. */}
+          <Tarjeta className="lg:col-span-2" retraso={250}>
+            <p className="font-mono text-lg text-tinta">{personal.ia.modelos.join(' · ')}</p>
+            <p className="mt-3 text-pretty text-sm leading-relaxed text-tinta/85">
+              {t({
+                en: 'I build with several models rather than betting on one: agents, orchestration, context management, and automations wired to their APIs.',
+                es: 'Construyo con varios modelos en vez de apostarle a uno: agentes, orquestación, manejo de contexto y automatizaciones conectadas a sus APIs.',
+              })}
+            </p>
+            <Link
+              to="/trabajo/express#demo"
+              className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-acento"
+            >
+              {t({
+                en: 'One of them runs in production',
+                es: 'Uno de ellos corre en producción',
+              })}
+              <span aria-hidden="true">→</span>
+            </Link>
+          </Tarjeta>
+
+          {/* Credenciales verificables */}
+          {personal.credenciales.map((credencial, indice) => (
+            <Tarjeta key={credencial.nombre} retraso={260 + indice * 60}>
+              <p className="eyebrow">{t(credencial.tipo)}</p>
+              <p className="mt-2 text-lg font-medium text-balance text-tinta">
+                {credencial.nombre}
+              </p>
+              <p className="mt-1 text-xs text-tenue">
+                {credencial.emisor} · {t(credencial.fecha)}
+              </p>
+              <a
+                href={credencial.url}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-acento"
+              >
+                {t({ en: 'Verify', es: 'Verificar' })}
+                <span aria-hidden="true">↗</span>
+              </a>
+            </Tarjeta>
+          ))}
 
           {/* Trayectoria */}
           <Tarjeta className="lg:col-span-2" retraso={280}>
