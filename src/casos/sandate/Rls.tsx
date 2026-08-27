@@ -4,11 +4,12 @@ import { useIdioma } from '../../i18n/idioma'
 import { Marco } from '../Marco'
 
 /**
- * Lo que veía un visitante anónimo antes y después de encender row level
- * security en la tabla de perfiles.
+ * Demostración de qué cambia al encender row level security en una tabla de
+ * perfiles. No es una reconstrucción de la base de ningún cliente: es el
+ * patrón, con datos inventados.
  *
- * Las filas son inventadas. La consulta y el mensaje de error no: así responde
- * Postgres cuando una política bloquea la escritura.
+ * La consulta y el mensaje de error sí son reales: así responde Postgres
+ * cuando una política bloquea la lectura y la escritura.
  */
 
 // Nombres y correos inventados, sin relación con personas ni dominios reales
@@ -28,15 +29,15 @@ export default function Rls() {
     <Marco
       titulo="psql · role = anon"
       pie={t({
-        en: 'Rows are fabricated. The query and the error are what actually run.',
-        es: 'Las filas son inventadas. La consulta y el error son los que corren de verdad.',
+        en: 'Fabricated data demonstrating the pattern. The query and the error are what Postgres actually returns.',
+        es: 'Datos inventados para demostrar el patrón. La consulta y el error son los que Postgres devuelve de verdad.',
       })}
     >
       <div className="flex flex-wrap items-center justify-between gap-4">
         <p className="max-w-md text-sm text-tenue">
           {t({
-            en: 'Same anonymous API key, same query. The only difference is row level security.',
-            es: 'La misma llave anónima, la misma consulta. La única diferencia es row level security.',
+            en: 'Same anonymous API key, same query. The only difference is row level security. With no server in between, this one setting is the whole perimeter.',
+            es: 'La misma llave anónima, la misma consulta. La única diferencia es row level security. Sin servidor en medio, ese solo ajuste es todo el perímetro.',
           })}
         </p>
 
@@ -76,8 +77,8 @@ export default function Rls() {
             <p className="font-mono text-sm text-exito">(0 rows)</p>
             <p className="mx-auto mt-2 max-w-xs text-xs text-tenue">
               {t({
-                en: 'No policy grants anonymous read. Postgres does not error — it simply returns nothing.',
-                es: 'Ninguna política da lectura anónima. Postgres no marca error — simplemente no devuelve nada.',
+                en: 'No policy grants anonymous read. Postgres does not error — it simply returns nothing, which is exactly what you want.',
+                es: 'Ninguna política da lectura anónima. Postgres no marca error — simplemente no devuelve nada, que es justo lo que quieres.',
               })}
             </p>
           </div>

@@ -450,41 +450,36 @@ export const proyectos: Proyecto[] = [
   },
 
   {
-    // El nombre de la clienta va reservado hasta que ella lo autorice. Este
-    // caso cuenta que su app tenía los expedientes de sus clientes expuestos:
-    // aunque ya esté arreglado y aunque el arreglo sea mérito de Angel, el
-    // riesgo reputacional es de ella, no de él. La historia técnica se cuenta
-    // completa sin nombrarla, así que no se pierde nada.
-    //
-    // Para publicarla con nombre: cambiar slug a 'sandate', nombre a
-    // 'Sandate Consultores' y quitar confidencial.
-    slug: 'consultoria-financiera',
-    nombre: {
-      en: 'Client portal for a financial consultancy',
-      es: 'Portal de clientes de una consultoría financiera',
-    },
+    // Se publica con nombre y con enlace al sitio en vivo, pero el caso NO
+    // narra la vulnerabilidad que tenía su app. Aunque ya esté cerrada y el
+    // cierre sea mérito de Angel, un portafolio que dice "los expedientes de
+    // esta empresa estaban al alcance de cualquiera" le hace daño a ella, no
+    // a él. Se cuenta lo que construyó y endureció; el widget demuestra el
+    // patrón de seguridad, no lo que pasaba antes en su base.
+    slug: 'sandate',
+    nombre: 'Sandate Consultores',
     cliente: {
-      en: 'Financial consultancy (name withheld)',
-      es: 'Consultoría financiera (nombre reservado)',
+      en: 'Financial consultancy, Mexico City',
+      es: 'Consultoría financiera, Ciudad de México',
     },
     periodo: '2026',
     resumen: {
-      en: 'Inherited a live client portal, opened the database, and found that anyone on the internet could read every client record and promote themselves to admin.',
-      es: 'Heredé un portal de clientes en producción, abrí la base de datos y encontré que cualquiera en internet podía leer todos los expedientes y ascenderse a administrador.',
+      en: 'A client portal handling real financial paperwork — case files, appointments, identity documents. I took it over and spent the work where it mattered: locking the data down at the database level, then building on top.',
+      es: 'Un portal de clientes que maneja trámites financieros reales — expedientes, citas, documentos de identidad. Lo tomé en marcha y puse el trabajo donde importaba: cerrar los datos a nivel de base, y de ahí construir hacia arriba.',
     },
     problema: {
-      en: 'The app handles financial paperwork for real people — identity documents, case files, CVs. It is a pure client-side app talking straight to a hosted database with a public API key, which is a fine architecture right up until row-level security is off. It was off.',
-      es: 'La app maneja trámites financieros de personas reales — identificaciones, expedientes, CVs. Es una app puramente de cliente que habla directo con una base hospedada usando una llave pública, que es una arquitectura perfectamente válida hasta el momento en que la seguridad a nivel de fila está apagada. Estaba apagada.',
+      en: 'This is a pure client-side app talking straight to a hosted database with a public API key. That architecture is fast to build and perfectly sound — but it moves the entire security burden onto the database policies, because there is no server in between to enforce anything. With identity documents and case files of real people in those tables, that is where the work belongs.',
+      es: 'Es una app puramente de cliente que habla directo con una base hospedada usando una llave pública. Esa arquitectura se construye rápido y es perfectamente válida — pero mueve toda la carga de seguridad a las políticas de la base, porque no hay servidor en medio que aplique nada. Con documentos de identidad y expedientes de personas reales en esas tablas, ahí es donde va el trabajo.',
     },
     decisiones: [
       {
         titulo: {
-          en: 'Close the hole first, tell the story after',
-          es: 'Cerrar el hoyo primero, contar la historia después',
+          en: 'The database decides who sees what',
+          es: 'La base decide quién ve qué',
         },
         detalle: {
-          en: 'Row-level security on, policies written per role, and the privilege checks moved into database functions that run with elevated rights so a client cannot edit their own role field. Then verified from the outside as an anonymous user: no reads, no escalation.',
-          es: 'Seguridad a nivel de fila encendida, políticas escritas por rol, y las verificaciones de privilegio movidas a funciones de base que corren con permisos elevados para que un cliente no pueda editar su propio campo de rol. Después verificado desde afuera como usuario anónimo: sin lecturas, sin escalación.',
+          en: 'Row-level security on every table, policies written per role, and the privilege checks moved into database functions that run with elevated rights so a client cannot edit their own role field. Then verified from the outside as an anonymous user, which is the only test that counts: no reads, no escalation.',
+          es: 'Seguridad a nivel de fila en cada tabla, políticas escritas por rol, y las verificaciones de privilegio movidas a funciones de base que corren con permisos elevados para que un cliente no pueda editar su propio campo de rol. Después verificado desde afuera como usuario anónimo, que es la única prueba que cuenta: sin lecturas, sin escalación.',
         },
       },
       {
@@ -493,8 +488,8 @@ export const proyectos: Proyecto[] = [
           es: 'Un asesor ve a sus clientes. No a todos.',
         },
         detalle: {
-          en: 'The dashboard already filtered by advisor in the UI, which is not the same thing as being enforced. The policies now scope case files, documents and appointments to assigned clients at the database level — the UI filter became a convenience instead of the control.',
-          es: 'El panel ya filtraba por asesor en la UI, que no es lo mismo que estar aplicado. Ahora las políticas acotan expedientes, documentos y citas a los clientes asignados a nivel de base — el filtro de la UI pasó de ser el control a ser una comodidad.',
+          en: 'A dashboard that filters by advisor in the UI is not the same thing as one that enforces it. The policies scope case files, documents and appointments to assigned clients at the database level — the UI filter is a convenience, never the control.',
+          es: 'Un panel que filtra por asesor en la UI no es lo mismo que uno que lo aplica. Las políticas acotan expedientes, documentos y citas a los clientes asignados a nivel de base — el filtro de la UI es una comodidad, nunca el control.',
         },
       },
       {
@@ -503,23 +498,23 @@ export const proyectos: Proyecto[] = [
           es: 'Los CVs dejaron de ser URLs públicas',
         },
         detalle: {
-          en: 'Job applicants\' CVs sat in a publicly readable bucket. Now the bucket is staff-only and sharing one goes through a function that signs a 48-hour URL server-side — and only for paths that look like a generated identifier, so it cannot be turned into a file browser.',
-          es: 'Los CVs de los candidatos vivían en un bucket de lectura pública. Ahora el bucket es solo para staff y compartir uno pasa por una función que firma una URL de 48 horas del lado del servidor — y solo para rutas con forma de identificador generado, para que no se pueda convertir en un explorador de archivos.',
+          en: 'Applicants\' CVs live in a staff-only bucket, and sharing one goes through a function that signs a 48-hour URL server-side — and only for paths that look like a generated identifier, so it cannot be turned into a file browser.',
+          es: 'Los CVs de los candidatos viven en un bucket solo para staff, y compartir uno pasa por una función que firma una URL de 48 horas del lado del servidor — y solo para rutas con forma de identificador generado, para que no se pueda convertir en un explorador de archivos.',
         },
       },
     ],
     resultado: {
-      en: 'Five security fixes shipped to production the same week, plus client notifications with realtime updates and a video library cut from 604 MB to 76 MB without touching audio or length.',
-      es: 'Cinco correcciones de seguridad desplegadas a producción la misma semana, más notificaciones al cliente con actualizaciones en tiempo real y una videoteca reducida de 604 MB a 76 MB sin tocar audio ni duración.',
+      en: 'Five rounds of hardening shipped to production in the same week, plus client notifications with realtime updates, automated WhatsApp alerts for new applications, and a video library cut from 604 MB to 76 MB without touching audio or length. Live on its own domain.',
+      es: 'Cinco rondas de endurecimiento desplegadas a producción en la misma semana, más notificaciones al cliente en tiempo real, avisos automáticos por WhatsApp cuando llega una solicitud, y una videoteca reducida de 604 MB a 76 MB sin tocar audio ni duración. En producción con dominio propio.',
     },
     metricas: [
-      { valor: '5', etiqueta: { en: 'security fixes shipped', es: 'correcciones de seguridad desplegadas' } },
+      { valor: '5', etiqueta: { en: 'rounds of hardening shipped', es: 'rondas de endurecimiento desplegadas' } },
       { valor: '87%', etiqueta: { en: 'smaller video library', es: 'menos peso en la videoteca' } },
       { valor: '48h', etiqueta: { en: 'signed URL lifetime', es: 'de vida en las URLs firmadas' } },
     ],
     rol: {
-      en: 'Sole developer — security audit, remediation, feature work and deployment.',
-      es: 'Único desarrollador — auditoría de seguridad, remediación, nuevas funciones y despliegue.',
+      en: 'Sole developer — security work, feature development and deployment.',
+      es: 'Único desarrollador — trabajo de seguridad, desarrollo de funciones y despliegue.',
     },
     stack: [
       'React',
@@ -532,16 +527,16 @@ export const proyectos: Proyecto[] = [
       'ffmpeg',
       'Vercel',
     ],
+    enlaceVivo: 'https://sandateconsultores.com.mx',
     widget: 'rls',
     widgetTitulo: {
-      en: 'What an anonymous visitor could read',
-      es: 'Lo que podía leer un visitante anónimo',
+      en: 'Why row level security is the whole game here',
+      es: 'Por qué row level security lo es todo aquí',
     },
     widgetBajada: {
-      en: 'Flip the switch to see the same query run before and after the fix. Rows are fabricated — the query is not.',
-      es: 'Mueve el switch para ver la misma consulta antes y después del arreglo. Las filas son inventadas — la consulta no.',
+      en: 'With no server in between, one setting decides whether a stranger reads everything or nothing. Flip it and run the same query both ways. Rows are fabricated — the query and the error are not.',
+      es: 'Sin un servidor en medio, un solo ajuste decide si un extraño lee todo o no lee nada. Muévelo y corre la misma consulta de los dos lados. Las filas son inventadas — la consulta y el error no.',
     },
-    confidencial: true,
   },
 ]
 

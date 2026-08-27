@@ -155,8 +155,8 @@ revisar(
 revisar('marca la cifra como ilustrativa', cuerpoAzteca.includes('ilustrativas'))
 
 // ------------------------------------------------- Consultoría financiera
-console.log('\nConsultoría financiera — RLS')
-await pagina.goto(`${BASE}/trabajo/consultoria-financiera`, { waitUntil: 'networkidle2' })
+console.log('\nSandate — RLS')
+await pagina.goto(`${BASE}/trabajo/sandate`, { waitUntil: 'networkidle2' })
 await esperar(400)
 
 const conRlsApagado = await texto()
