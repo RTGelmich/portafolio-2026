@@ -61,7 +61,7 @@ const cv = {
     },
     {
       empresa: 'Denumeris Interactive Agency',
-      puesto: 'Especialista en TI',
+      puesto: 'Especialista en Tecnologías de la Información',
       lugar: 'Ciudad de México',
       periodo: 'jul 2021 — mar 2024',
       puntos: [
@@ -70,7 +70,7 @@ const cv = {
     },
     {
       empresa: 'Riot Games',
-      puesto: 'IT',
+      puesto: 'Soporte de Tecnologías de la Información',
       lugar: 'Ciudad de México',
       periodo: 'ene 2021 — mar 2022',
       puntos: [],
