@@ -450,11 +450,22 @@ export const proyectos: Proyecto[] = [
   },
 
   {
-    slug: 'sandate',
-    nombre: 'Sandate Consultores',
+    // El nombre de la clienta va reservado hasta que ella lo autorice. Este
+    // caso cuenta que su app tenía los expedientes de sus clientes expuestos:
+    // aunque ya esté arreglado y aunque el arreglo sea mérito de Angel, el
+    // riesgo reputacional es de ella, no de él. La historia técnica se cuenta
+    // completa sin nombrarla, así que no se pierde nada.
+    //
+    // Para publicarla con nombre: cambiar slug a 'sandate', nombre a
+    // 'Sandate Consultores' y quitar confidencial.
+    slug: 'consultoria-financiera',
+    nombre: {
+      en: 'Client portal for a financial consultancy',
+      es: 'Portal de clientes de una consultoría financiera',
+    },
     cliente: {
-      en: 'Financial consultancy',
-      es: 'Consultoría financiera',
+      en: 'Financial consultancy (name withheld)',
+      es: 'Consultoría financiera (nombre reservado)',
     },
     periodo: '2026',
     resumen: {
