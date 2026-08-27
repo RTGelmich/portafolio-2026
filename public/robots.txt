@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://portafolio-2026-gamma.vercel.app/sitemap.xml
+Sitemap: https://angelflores.com.mx/sitemap.xml
