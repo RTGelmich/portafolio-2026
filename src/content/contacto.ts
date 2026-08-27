@@ -15,6 +15,6 @@ export const contacto = {
   linkedinVisible: 'in/angel-flores',
   linkedinUrl: 'https://www.linkedin.com/in/angel-flores-755372219/',
 
-  // TODO(angel): generar el PDF del CV y ponerlo en public/. Sin él, el botón se oculta.
-  cvUrl: '',
+  // Se genera con: npm run cv
+  cvUrl: '/cv-angel-flores.pdf',
 } as const

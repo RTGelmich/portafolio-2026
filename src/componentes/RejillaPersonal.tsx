@@ -228,9 +228,11 @@ export function RejillaPersonal() {
           <Tarjeta className="lg:col-span-2" retraso={300}>
             <p className="font-mono text-2xl text-tinta">ES · EN</p>
             <p className="mt-3 text-pretty text-sm leading-relaxed text-tinta/85">
+              {/* Su CV dice "Inglés técnico / intermedio". Decir aquí algo que
+                  suene a bilingüe le explota en la primera llamada en inglés. */}
               {t({
-                en: 'Spanish is native. This whole site is written in both — switch it up top.',
-                es: 'Español nativo. Todo este sitio está escrito en los dos — cámbialo arriba.',
+                en: 'Spanish is native. My English is technical — I read, write and ship in it; conversation is intermediate. This whole site is written in both.',
+                es: 'Español nativo. Mi inglés es técnico — leo, escribo y trabajo en él; de conversación voy intermedio. Todo este sitio está escrito en los dos.',
               })}
             </p>
           </Tarjeta>

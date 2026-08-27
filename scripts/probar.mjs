@@ -242,6 +242,25 @@ revisar(
 )
 revisar('muestra la estatura en metros', /1\.72 m/.test(cuerpoPersonal))
 
+// ----------------------------------------------------------------------- CV
+console.log('\nCV')
+await pagina.goto(BASE, { waitUntil: 'networkidle2' })
+await esperar(600)
+const cv = await pagina.evaluate(() => {
+  const a = [...document.querySelectorAll('a')].find((n) =>
+    (n.getAttribute('href') ?? '').endsWith('.pdf'),
+  )
+  return a ? { href: a.getAttribute('href'), descarga: a.hasAttribute('download') } : null
+})
+revisar('el botón de descargar CV aparece', cv !== null)
+revisar('apunta a un PDF y se descarga', cv?.href?.endsWith('.pdf') && cv?.descarga)
+
+const respuestaCv = await pagina.evaluate(
+  async (url) => (await fetch(url)).status,
+  `${BASE}/cv-angel-flores.pdf`,
+)
+revisar('el PDF existe y se sirve', respuestaCv === 200, String(respuestaCv))
+
 // --------------------------------------------------------------- Recomendar
 console.log('\nPágina de recomendar')
 await pagina.goto(`${BASE}/recomendar`, { waitUntil: 'networkidle2' })
