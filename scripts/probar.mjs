@@ -242,6 +242,53 @@ revisar(
 )
 revisar('muestra la estatura en metros', /1\.72 m/.test(cuerpoPersonal))
 
+// --------------------------------------------------------------- Recomendar
+console.log('\nPágina de recomendar')
+await pagina.goto(`${BASE}/recomendar`, { waitUntil: 'networkidle2' })
+await esperar(600)
+
+// window.open abriría WhatsApp de verdad; lo interceptamos para leer la URL.
+await pagina.evaluate(() => {
+  window.__abierto = null
+  window.open = (url) => {
+    window.__abierto = url
+    return null
+  }
+})
+
+const botonAntes = await pagina.evaluate(
+  () => document.querySelector('button[type="submit"]')?.disabled,
+)
+revisar('el botón arranca deshabilitado', botonAntes === true)
+
+await pagina.type('input[name="nombre"]', 'Angeles Ramírez')
+await pagina.type('input[name="puesto"]', 'Tech Lead, Captación')
+await pagina.type('input[name="empresa"]', 'Banco Azteca')
+await pagina.type(
+  'textarea[name="texto"]',
+  'Tuve la oportunidad de trabajar con Angel y me gusta su compromiso y su habilidad para detectar bugs.',
+)
+await esperar(400)
+
+const cuerpoForm = await texto()
+revisar('la vista previa muestra lo que se escribe', cuerpoForm.includes('Angeles Ramírez'))
+revisar('la vista previa muestra el puesto', cuerpoForm.includes('Tech Lead, Captación · Banco Azteca'))
+
+const botonDespues = await pagina.evaluate(
+  () => document.querySelector('button[type="submit"]')?.disabled,
+)
+revisar('el botón se habilita al completar', botonDespues === false)
+
+await pagina.click('button[type="submit"]')
+await esperar(300)
+const abierto = await pagina.evaluate(() => window.__abierto)
+revisar('el envío arma el enlace de WhatsApp', (abierto ?? '').includes('wa.me'))
+revisar(
+  'el mensaje lleva el texto y el puesto',
+  decodeURIComponent(abierto ?? '').includes('Tech Lead') &&
+    decodeURIComponent(abierto ?? '').includes('detectar bugs'),
+)
+
 // ------------------------------------------------------------------- Teclado
 console.log('\nAccesibilidad')
 await pagina.goto(BASE, { waitUntil: 'networkidle2' })

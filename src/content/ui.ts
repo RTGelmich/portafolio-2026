@@ -39,6 +39,19 @@ export const ui = {
     es: 'Lo que dice la gente que ha trabajado conmigo.',
   },
 
+  recomendarTitulo: {
+    en: 'Say a few words about working with me.',
+    es: 'Cuenta cómo fue trabajar conmigo.',
+  },
+  recomendarBajada: {
+    en: 'If we worked together and you have something good to say, this is the place. It takes two minutes and you can see exactly how it will look before you send it.',
+    es: 'Si trabajamos juntos y tienes algo bueno que decir, aquí es. Toma dos minutos y puedes ver exactamente cómo va a quedar antes de mandarlo.',
+  },
+  recomendarNota: {
+    en: 'Nothing is stored anywhere: the button opens WhatsApp with your message ready to send. It only goes on the site once Angel publishes it, so if you change your mind, just do not send it.',
+    es: 'No se guarda nada en ningún lado: el botón abre WhatsApp con tu mensaje listo para enviar. Solo aparece en el sitio cuando Angel lo publica, así que si te arrepientes, con no mandarlo basta.',
+  },
+
   sobreMiTitulo: {
     en: 'Some things about me that are not projects.',
     es: 'Unas cosas sobre mí que no son proyectos.',

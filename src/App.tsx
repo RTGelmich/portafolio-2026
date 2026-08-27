@@ -14,6 +14,12 @@ const CasoEstudio = lazy(() =>
   import('./rutas/CasoEstudio').then((m) => ({ default: m.CasoEstudio })),
 )
 
+// La página de recomendar la abre solo quien reciba el enlace de Angel: no
+// tiene por qué pesar en la portada, que es la que ve todo el mundo.
+const Recomendar = lazy(() =>
+  import('./rutas/Recomendar').then((m) => ({ default: m.Recomendar })),
+)
+
 /**
  * Al navegar a otra ruta el scroll se queda donde estaba. Lo reiniciamos,
  * salvo cuando el usuario va a un ancla o usa atrás/adelante.
@@ -57,6 +63,7 @@ export function App() {
           <Routes>
             <Route path="/" element={<Inicio />} />
             <Route path="/trabajo/:slug" element={<CasoEstudio />} />
+            <Route path="/recomendar" element={<Recomendar />} />
             <Route path="*" element={<NoEncontrado />} />
           </Routes>
         </Suspense>
