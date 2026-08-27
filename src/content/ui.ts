@@ -74,9 +74,8 @@ export const ui = {
     es: 'Si algo de aquí te sirve, escríbeme. La vía más rápida es WhatsApp.',
   },
 
-  hechoCon: {
-    en: 'Built with React, TypeScript and a hand-written WebGL shader. No templates.',
-    es: 'Hecho con React, TypeScript y un shader WebGL escrito a mano. Sin plantillas.',
+  pieContacto: {
+    en: "If any of this is useful to you, let's talk.",
+    es: 'Si algo de esto te sirve, hablemos.',
   },
-  verCodigo: { en: 'Source code', es: 'Código fuente' },
 } satisfies Record<string, Bilingue>

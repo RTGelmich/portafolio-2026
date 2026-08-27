@@ -13,7 +13,14 @@ export function PieDePagina() {
           {/* Aquí sí sigue al cursor en las páginas de caso, donde no está la
               rejilla personal. */}
           <Avatar className="w-12 shrink-0 cursor-pointer" />
-          <p className="max-w-md text-pretty">{t(ui.hechoCon)}</p>
+          <a
+            href={contacto.whatsappUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="transition-colors hover:text-tinta"
+          >
+            {t(ui.pieContacto)}
+          </a>
         </div>
         <p className="font-mono text-xs">
           © {new Date().getFullYear()} {contacto.nombre}
