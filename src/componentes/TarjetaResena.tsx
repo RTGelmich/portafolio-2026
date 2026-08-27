@@ -17,7 +17,10 @@ export function TarjetaResena({ resena }: { resena: Resena }) {
 
   return (
     <figure className="flex h-full flex-col rounded-2xl border border-borde bg-superficie/60 p-6 sm:p-7">
-      <blockquote className="flex-1 text-pretty leading-relaxed text-tinta/90">
+      {/* whitespace-pre-line respeta los saltos de línea de quien escribió:
+          varios separaron sus ideas en renglones y sin esto se aplastan todos
+          en un párrafo corrido. */}
+      <blockquote className="flex-1 text-pretty leading-relaxed whitespace-pre-line text-tinta/90">
         {resena.texto || (
           <span className="text-tenue">
             {t({ en: 'The recommendation will appear here…', es: 'Aquí aparecerá la recomendación…' })}

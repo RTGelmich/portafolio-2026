@@ -7,10 +7,13 @@ import type { Idioma } from '../i18n/idioma'
  * portafolio de búsqueda de empleo con testimonios abiertos es un blanco
  * obvio, y basta un comentario malintencionado para hundir la página entera.
  *
- * Cada quien escribe en su idioma y así se queda. Traducir el testimonio de
- * alguien es ponerle palabras en la boca; lo que se marca es en qué idioma
- * está, para que el sitio lo indique cuando no coincide con el que se está
- * leyendo.
+ * **Los textos van tal cual los escribieron, sin editar** — ni la puntuación,
+ * ni las mayúsculas, ni los acentos. Corregirle el estilo a quien te hizo el
+ * favor de recomendarte es ponerle palabras en la boca, y cinco testimonios
+ * que suenan todos a la misma pluma no convencen a nadie.
+ *
+ * Lo que sí se marca es el idioma del texto, para avisarlo cuando no coincide
+ * con el que se está leyendo.
  */
 export type Resena = {
   nombre: string
@@ -31,18 +34,63 @@ export type Resena = {
   aprobada: boolean
 }
 
+/**
+ * El orden importa: se leen de arriba a abajo y casi nadie llega a la última.
+ * Van primero las que dicen algo concreto y las que traen enlace verificable.
+ */
 export const resenas: Resena[] = [
-  // EJEMPLO — no está aprobada, así que no se pinta. Sirve de plantilla para
-  // ver qué campos lleva cada una.
   {
-    nombre: 'Angeles',
-    puesto: 'Tech Lead, Captación',
-    empresa: 'Banco Azteca',
+    nombre: 'Juan Fuentes',
+    puesto: 'Senior Full Stack Software Engineer',
+    empresa: 'Auction Technology Group',
     texto:
-      'Tuve la oportunidad de trabajar con Angel y me gusta su compromiso, su habilidad para detectar bugs y la facilidad con la que entiende los requerimientos que se le asignan.',
+      'Ángel es un profesional comprometido con su equipo de trabajo, siempre encontrando el "cómo sí", dando ese extra que marca la diferencia entre un producto que cumple lineamientos y el que cautiva al usuario.\n\nHe tenido la suerte de colaborar en múltiples ocasiones con él y siempre ha sido un team player único',
+    // Llegó marcada como 'en' porque Juan tenía el sitio en inglés, pero
+    // escribió en español. Manda el idioma del texto, no el de la interfaz.
     idioma: 'es',
     fecha: '2026-08',
-    aprobada: false,
+    linkedin: 'https://www.linkedin.com/in/rejit-kadath',
+    aprobada: true,
+  },
+  {
+    nombre: 'Luis E. Moya',
+    puesto: 'IT',
+    empresa: 'Denumeris Interactive',
+    texto:
+      'El Ingeniero Angel es una gran persona, tanto fuera como dentro de un empleo. El es muy Proactivo, le gusta mucho ayudar a la demás gente, además que es muy ingenioso para resolver problemas. Puntual en sus tareas que le asignan.\nEs de las personas que, si no sabe "algo", busca la solución y resuelve.\nSi me preguntaran, sinceramente volvería a trabajar con el puesto que es un gran líder.',
+    idioma: 'es',
+    fecha: '2026-08',
+    aprobada: true,
+  },
+  {
+    nombre: 'Ana Karen Jiménez',
+    puesto: 'Desarrolladora Frontend',
+    empresa: 'Grupo Salinas, Banco Azteca',
+    texto:
+      'Ángel es una persona responsable, muy colaborativa, sabe trabajar en equipo, siempre ha mostrado una actitud para resolver y afrontar retos de diversas índole.\nSu compromiso es notable y destacable, por lo que lo recomiendo expresamente.\nSe que podrá contribuir a cualquier otra área a la que se integre de forma notable.',
+    idioma: 'es',
+    fecha: '2026-08',
+    aprobada: true,
+  },
+  {
+    nombre: 'Luis Felipe',
+    // TODO(angel): "Desarrollador generico" es lo que él escribió, pero como
+    // puesto en tu portafolio se lee a descuido. Pregúntale cuál es el suyo.
+    puesto: 'Desarrollador generico',
+    empresa: 'Grupo Salinas',
+    texto:
+      'El Ing. Ángel Flores ha demostrado un crecimiento sobresaliente como Desarrollador Front End. Adquirió un amplio conocimiento técnico y una gran capacidad de aprendizaje, incorporando y dominando nuevas tecnologías de manera efectiva. Además, se adaptó rápidamente a un entorno de trabajo dinámico y de constantes cambios en los requerimientos, manteniendo siempre una actitud positiva y orientada a resultados. Su disposición para aprender y afrontar nuevos desafíos lo convirtió en un integrante valioso para el equipo.',
+    idioma: 'es',
+    fecha: '2026-08',
+    aprobada: true,
+  },
+  {
+    nombre: 'Luis Medina',
+    puesto: 'Desarrollador',
+    texto: 'Excelente compañero de trabajo con ganas de aprender siempre, 10/10',
+    idioma: 'es',
+    fecha: '2026-08',
+    aprobada: true,
   },
 ]
 
