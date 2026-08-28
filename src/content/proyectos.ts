@@ -224,8 +224,8 @@ export const proyectos: Proyecto[] = [
     },
     periodo: '2024 — 2026',
     resumen: {
-      en: 'Origination front end at national retail-bank scale: account opening, investments and insurance — thousands of operations every single day, across the branch network.',
-      es: 'Front de originación a escala de banca minorista nacional: apertura de cuentas, inversiones y seguros — miles de operaciones cada día, en toda la red de sucursales.',
+      en: 'Origination front end at national retail-bank scale — account opening, investments, insurance, portability — running thousands of operations a day across the branch network, on a core shared by several teams.',
+      es: 'Front de originación a escala de banca minorista nacional — apertura de cuentas, inversiones, seguros, portabilidad — con miles de operaciones diarias en toda la red de sucursales, sobre un núcleo que comparten varios equipos.',
     },
     problema: {
       en: 'Opening a bank account, taking out an investment or issuing an insurance policy are regulated, multi-step processes: identity checks, document capture, and several back-end systems that all have to end up agreeing. At thousands of operations a day, the gap between a flow that mostly works and one that actually works is measured in hours of branch staff time and in customers who walk out.',
@@ -264,6 +264,26 @@ export const proyectos: Proyecto[] = [
       },
       {
         titulo: {
+          en: 'A test suite nobody trusted is a test suite nobody runs',
+          es: 'Una suite de pruebas en la que nadie confía es una suite que nadie corre',
+        },
+        detalle: {
+          en: 'The unit test suite had drifted into a state where a large share of it failed for reasons that had nothing to do with the code under test — configuration and navigation context, mostly. I took it from around 200 passing suites to 272, fixing the systemic causes rather than skipping the red ones, and wired static analysis into the pipeline so duplication gets caught before review instead of during it.',
+          es: 'La suite de pruebas unitarias se había deteriorado hasta que buena parte fallaba por razones que no tenían nada que ver con el código que probaban — configuración y contexto de navegación, sobre todo. La llevé de unas 200 suites en verde a 272, atacando las causas sistémicas en vez de saltarme las rojas, y metí análisis estático al pipeline para que la duplicidad se detecte antes de la revisión y no durante.',
+        },
+      },
+      {
+        titulo: {
+          en: 'New modules land in a core several teams share',
+          es: 'Los módulos nuevos caen en un núcleo que comparten varios equipos',
+        },
+        detalle: {
+          en: 'Originación is not one flow: identity validation, anti-money-laundering checks, paperless signing with one-time passwords, card delivery. Each one lands in a core that several teams touch, on top of shared libraries with their own versions and patches. Half the work is the feature; the other half is landing it without breaking the three teams downstream.',
+          es: 'La originación no es un solo flujo: validación de identidad, revisiones de prevención de lavado, firma sin papel con contraseñas de un solo uso, entrega de tarjeta. Cada uno aterriza en un núcleo que tocan varios equipos, encima de librerías compartidas con sus propias versiones y parches. La mitad del trabajo es la funcionalidad; la otra mitad es meterla sin romperle nada a los tres equipos de al lado.',
+        },
+      },
+      {
+        titulo: {
           en: 'Optimise for the worst branch, not the best',
           es: 'Optimizar para la peor sucursal, no para la mejor',
         },
@@ -274,19 +294,20 @@ export const proyectos: Proyecto[] = [
       },
     ],
     resultado: {
-      en: 'Three product lines running in daily production use across the national branch network.',
-      es: 'Tres líneas de producto en uso productivo diario a lo largo de la red nacional de sucursales.',
+      en: 'Several product lines in daily production use across the national branch network, on a codebase whose test suite went from unreliable to something the team can actually lean on.',
+      es: 'Varias líneas de producto en uso productivo diario a lo largo de la red nacional de sucursales, sobre una base de código cuya suite de pruebas pasó de poco confiable a algo en lo que el equipo sí se puede apoyar.',
     },
     metricas: [
       { valor: '1000s', etiqueta: { en: 'operations per day', es: 'operaciones por día' } },
-      { valor: '3', etiqueta: { en: 'product lines: accounts, investments, insurance', es: 'líneas: cuentas, inversiones, seguros' } },
+      { valor: '30%', etiqueta: { en: 'faster load and sign-up times', es: 'menos tiempo de carga y registro' } },
+      { valor: '272', etiqueta: { en: 'test suites brought back to green', es: 'suites de pruebas devueltas a verde' } },
       { valor: 'Nacional', etiqueta: { en: 'branch network coverage', es: 'cobertura de la red' } },
     ],
     rol: {
-      en: 'Frontend engineer on the origination flows — state, API integration and the retry behaviour.',
-      es: 'Ingeniero frontend en los flujos de originación — estado, integración con APIs y el comportamiento de reintentos.',
+      en: 'Software engineer on the origination flows — state, API integration, retry behaviour, and the health of the test suite.',
+      es: 'Ingeniero de software en los flujos de originación — estado, integración con APIs, comportamiento de reintentos y la salud de la suite de pruebas.',
     },
-    stack: ['JavaScript', 'React', 'Redux', 'REST APIs'],
+    stack: ['JavaScript', 'React', 'Redux', 'REST APIs', 'Jest', 'SonarQube'],
     widget: 'throughput',
     widgetTitulo: {
       en: 'What "thousands a day" actually looks like',

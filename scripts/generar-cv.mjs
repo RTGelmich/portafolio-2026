@@ -33,7 +33,7 @@ const cv = {
   github: 'github.com/RTGelmich',
 
   perfil:
-    'Ingeniero en Computación con cinco años construyendo software que opera en producción: originación bancaria a miles de operaciones diarias, sistemas de gestión completos y migración de aplicaciones financieras heredadas. Front-end con React y TypeScript como base, con trabajo real en base de datos, seguridad y despliegue. Cada proyecto de mi portafolio trae una demo funcional de la parte más difícil.',
+    'Ingeniero en Computación con cinco años construyendo software que opera en producción: originación bancaria a miles de operaciones diarias, sistemas de gestión completos y migración de aplicaciones financieras heredadas. Front-end con React y TypeScript, con trabajo real en base de datos, seguridad y despliegue. Cada proyecto de mi portafolio trae una demo funcional de la parte más difícil.',
 
   experiencia: [
     {
@@ -42,10 +42,12 @@ const cv = {
       lugar: 'Ciudad de México',
       periodo: 'nov 2024 — actual',
       puntos: [
-        'Rediseño e implementación de interfaces transaccionales críticas para los flujos de originación: apertura de cuentas, inversiones y seguros, con React y Redux.',
-        'Reducción del 30% en los tiempos de carga y registro, incrementando la tasa de éxito de las afiliaciones.',
-        'Comportamiento de reintentos que retoma el flujo donde se quedó en vez de devolver al cliente al paso uno. A miles de operaciones diarias, una falla que pega en una de cada mil llamadas ocurre decenas de veces al día.',
+        'Desarrollo de interfaces transaccionales críticas de originación (apertura de cuentas, inversiones, seguros, portabilidad) con React y Redux, sobre una base de miles de operaciones diarias.',
+        'Reducción del 30% en los tiempos de carga y registro, con aumento en la tasa de éxito de las afiliaciones.',
+        'Reintentos que retoman el flujo en el punto de la falla en lugar de reiniciarlo: a este volumen, un error de 1 en 1000 golpea decenas de veces al día.',
         'Integración de APIs REST y microservicios para transacciones financieras en tiempo real, con normalización de respuestas en la frontera y prácticas OWASP.',
+        'Integración de módulos nuevos al núcleo de originación (validación de identidad, prevención de lavado de dinero, firma sin papel con OTP, entrega de tarjeta), coordinando cambios con librerías compartidas versionadas entre equipos.',
+        'Recuperación de la suite de pruebas unitarias: de ~200 a 272 suites en verde con correcciones sistémicas en configuración y en el contexto de navegación; SonarQube integrado al pipeline con reducción de duplicidad de código.',
       ],
     },
     {
@@ -64,9 +66,7 @@ const cv = {
       puesto: 'Especialista en Tecnologías de la Información',
       lugar: 'Ciudad de México',
       periodo: 'jul 2021 — mar 2024',
-      puntos: [
-        'Soporte y desarrollo para clientes de la agencia, con responsabilidad directa sobre entregas en producción.',
-      ],
+      puntos: [],
     },
     {
       empresa: 'Riot Games',
@@ -82,19 +82,19 @@ const cv = {
       nombre: 'Gladiadores Playa',
       enlace: 'gladiadoresplaya.com.mx',
       texto:
-        'Sistema completo de gestión de gimnasio en producción con dominio propio: 14 módulos, acceso por QR con anti-passback, punto de venta transaccional, reserva de clases y multi-sede. React 19, TypeScript, PostgreSQL con Row Level Security. Único desarrollador.',
+        'Sistema de gestión de gimnasio en producción, único desarrollador: 14 módulos, acceso por QR con anti-passback, punto de venta transaccional y multi-sede. React 19, TypeScript, PostgreSQL con Row Level Security.',
     },
     {
       nombre: 'Sandate Consultores',
       enlace: 'sandateconsultores.com.mx',
       texto:
-        'Portal de clientes para consultoría financiera. Seguridad a nivel de base con RLS y funciones con permisos elevados, URLs firmadas para documentos sensibles, notificaciones en tiempo real y avisos automáticos por WhatsApp Cloud API.',
+        'Portal de clientes con seguridad a nivel de base: RLS, funciones con permisos elevados y URLs firmadas para documentos sensibles. Notificaciones en tiempo real y avisos por WhatsApp Cloud API.',
     },
     {
       nombre: 'Migración de sistema de facturación (distribuidora de gas LP)',
       enlace: '',
       texto:
-        'Migración de una aplicación de escritorio WPF de 10,850 líneas a web, sin migrar la base de producción. Lógica financiera portada a una capa de dominio aislada con 46 pruebas, incluyendo la diferencia entre el redondeo bancario de C# y el de JavaScript. Next.js, Prisma, SQL Server.',
+        'Migración de una app de escritorio WPF de 10,850 líneas a web sin mover la base de producción. Lógica financiera aislada con 46 pruebas, incluido el redondeo bancario de C# frente al de JavaScript. Next.js, Prisma, SQL Server.',
     },
   ],
 
@@ -116,7 +116,7 @@ const cv = {
 
   formacion: [
     {
-      titulo: 'Ingeniería en Computación',
+      titulo: 'Ingeniería en Computación · Titulado con cédula profesional',
       lugar: 'FES Aragón, UNAM',
       periodo: '2014 — 2018',
     },
@@ -148,7 +148,7 @@ const html = `<!doctype html>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
-    font-size: 8.9pt; line-height: 1.31; color: #1c1c22; -webkit-print-color-adjust: exact;
+    font-size: 8.9pt; line-height: 1.28; color: #1c1c22; -webkit-print-color-adjust: exact;
   }
   a { color: #3b4fd8; text-decoration: none; }
 
