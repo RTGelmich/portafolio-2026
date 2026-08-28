@@ -39,6 +39,8 @@ export const ui = {
     es: 'Lo que dice la gente que ha trabajado conmigo.',
   },
 
+  resenasMenos: { en: 'Show fewer', es: 'Mostrar menos' },
+
   recomendarTitulo: {
     en: 'Say a few words about working with me.',
     es: 'Cuenta cómo fue trabajar conmigo.',

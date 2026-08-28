@@ -242,6 +242,41 @@ revisar(
 )
 revisar('muestra la estatura en metros', /1\.72 m/.test(cuerpoPersonal))
 
+// ------------------------------------------------------------ Recomendaciones
+console.log('\nRecomendaciones')
+await pagina.goto(BASE, { waitUntil: 'networkidle2' })
+await esperar(800)
+
+const alInicio = await pagina.evaluate(
+  () => document.querySelectorAll('#recomendaciones figure').length,
+)
+revisar('solo se ven dos de entrada', alInicio === 2, String(alInicio))
+
+const boton = '[aria-controls="lista-recomendaciones"]'
+revisar(
+  'el botón dice cuántas faltan',
+  /\d+/.test(await pagina.evaluate((s) => document.querySelector(s)?.textContent ?? '', boton)),
+)
+
+await pagina.click(boton)
+await esperar(400)
+const expandido = await pagina.evaluate(
+  () => document.querySelectorAll('#recomendaciones figure').length,
+)
+revisar('al expandir se ven todas', expandido > alInicio, String(expandido))
+revisar(
+  'el botón anuncia su estado a lectores de pantalla',
+  (await pagina.evaluate((s) => document.querySelector(s)?.getAttribute('aria-expanded'), boton)) ===
+    'true',
+)
+
+await pagina.click(boton)
+await esperar(400)
+revisar(
+  'se puede volver a plegar',
+  (await pagina.evaluate(() => document.querySelectorAll('#recomendaciones figure').length)) === 2,
+)
+
 // ----------------------------------------------------------------------- CV
 console.log('\nCV')
 await pagina.goto(BASE, { waitUntil: 'networkidle2' })
