@@ -2,6 +2,7 @@ import { Link } from 'react-router'
 
 import type { Proyecto } from '../content/proyectos'
 import { ui } from '../content/ui'
+import { useBrillo } from '../hooks/useBrillo'
 import { useIdioma } from '../i18n/idioma'
 import { Miniatura } from './Miniatura'
 import { NumeroAnimado } from './NumeroAnimado'
@@ -9,13 +10,7 @@ import { NumeroAnimado } from './NumeroAnimado'
 export function TarjetaProyecto({ proyecto, indice }: { proyecto: Proyecto; indice: number }) {
   const { t } = useIdioma()
 
-  // El resplandor sigue al cursor por variables CSS. Guardarlo en estado de
-  // React haría un re-render por cada pixel de movimiento.
-  function seguirPuntero(evento: React.PointerEvent<HTMLElement>) {
-    const caja = evento.currentTarget.getBoundingClientRect()
-    evento.currentTarget.style.setProperty('--puntero-x', `${evento.clientX - caja.left}px`)
-    evento.currentTarget.style.setProperty('--puntero-y', `${evento.clientY - caja.top}px`)
-  }
+  const seguirPuntero = useBrillo()
 
   return (
     <article

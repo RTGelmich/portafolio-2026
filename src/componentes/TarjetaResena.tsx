@@ -1,4 +1,5 @@
 import type { Resena } from '../content/resenas'
+import { useBrillo } from '../hooks/useBrillo'
 import { useIdioma } from '../i18n/idioma'
 
 /** Iniciales para el avatar: nadie manda foto y pedirla es una fricción de más. */
@@ -12,17 +13,19 @@ function iniciales(nombre: string): string {
  * formulario: quien escribe una recomendación ve exactamente cómo va a
  * quedar mientras la escribe.
  *
- * Reacciona al cursor aclarando su borde, pero sin el acento azul, sin
- * levantarse y sin el resplandor que siguen las tarjetas de proyecto. Esa
- * diferencia es deliberada: aquí el azul y el levantón significan "esto se
- * puede picar", y una recomendación no lleva a ningún lado. Darle el mismo
- * tratamiento sería prometer un clic que no existe.
+ * Reacciona al cursor igual que las tarjetas de proyecto: borde de acento,
+ * resplandor que sigue al puntero y un levantón mínimo. Consistencia visual
+ * por encima de la semántica de "esto se puede picar" — decisión de Angel.
  */
 export function TarjetaResena({ resena }: { resena: Resena }) {
   const { t, idioma } = useIdioma()
+  const seguirPuntero = useBrillo()
 
   return (
-    <figure className="flex h-full flex-col rounded-2xl border border-borde bg-superficie/60 p-6 transition-colors duration-300 hover:border-tenue/60 hover:bg-superficie sm:p-7">
+    <figure
+      onPointerMove={seguirPuntero}
+      className="tarjeta-brillo relative isolate flex h-full flex-col rounded-2xl border border-borde bg-superficie/60 p-6 transition-[border-color,transform] duration-300 ease-suave hover:-translate-y-0.5 hover:border-acento/50 sm:p-7"
+    >
       {/* whitespace-pre-line respeta los saltos de línea de quien escribió:
           varios separaron sus ideas en renglones y sin esto se aplastan todos
           en un párrafo corrido. */}
