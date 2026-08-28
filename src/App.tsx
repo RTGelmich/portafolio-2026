@@ -21,15 +21,30 @@ const Recomendar = lazy(() =>
 )
 
 /**
- * Al navegar a otra ruta el scroll se queda donde estaba. Lo reiniciamos,
- * salvo cuando el usuario va a un ancla o usa atrás/adelante.
+ * Al navegar a otra ruta el scroll se queda donde estaba, así que lo
+ * reiniciamos. Y cuando la URL trae un ancla, bajamos a ella nosotros.
+ *
+ * Esa segunda parte hace falta porque el navegador busca el ancla al recibir
+ * el HTML, y en una SPA ese HTML todavía no tiene la sección: la pinta React
+ * un instante después. Sin esto, compartir angelflores.com.mx/#recomendaciones
+ * deja a quien lo abre hasta arriba, preguntándose qué le querían enseñar.
  */
 function ReiniciarScroll() {
   const { pathname, hash } = useLocation()
 
   useEffect(() => {
-    if (hash) return
-    window.scrollTo({ top: 0, behavior: 'instant' })
+    if (!hash) {
+      window.scrollTo({ top: 0, behavior: 'instant' })
+      return
+    }
+
+    // Un frame de margen para que la sección exista antes de buscarla.
+    const id = requestAnimationFrame(() => {
+      document
+        .querySelector(decodeURIComponent(hash))
+        ?.scrollIntoView({ behavior: 'instant', block: 'start' })
+    })
+    return () => cancelAnimationFrame(id)
   }, [pathname, hash])
 
   return null

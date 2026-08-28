@@ -242,6 +242,18 @@ revisar(
 )
 revisar('muestra la estatura en metros', /1\.72 m/.test(cuerpoPersonal))
 
+// ------------------------------------------------------------------ Anclas
+console.log('\nEnlaces con ancla')
+for (const ancla of ['#trabajo', '#recomendaciones', '#sobre-mi', '#contacto']) {
+  await pagina.goto(`${BASE}/${ancla}`, { waitUntil: 'networkidle2' })
+  await esperar(700)
+  // En una SPA el navegador no puede saltar al ancla solo: cuando recibe el
+  // HTML la sección todavía no existe. Si esto falla, compartir un enlace con
+  // ancla deja a quien lo abre hasta arriba.
+  const y = await pagina.evaluate(() => Math.round(window.scrollY))
+  revisar(`${ancla} baja hasta su sección`, y > 300, `scrollY ${y}`)
+}
+
 // -------------------------------------------------- Sensación de velocidad
 console.log('\nSensación de velocidad')
 await pagina.goto(BASE, { waitUntil: 'networkidle2' })
