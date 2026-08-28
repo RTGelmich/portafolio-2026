@@ -268,8 +268,8 @@ export const proyectos: Proyecto[] = [
           es: 'Una suite de pruebas en la que nadie confía es una suite que nadie corre',
         },
         detalle: {
-          en: 'The Jest suite had drifted into a state where a large share of it failed for reasons that had nothing to do with the code under test — configuration and navigation context, mostly. I took it from around 200 passing suites to 272, fixing the systemic causes rather than skipping the red ones. Coverage was sitting around 40%, so I also wired static analysis into the pipeline: duplication now gets caught before review instead of during it, and the number is finally visible to everyone.',
-          es: 'La suite de Jest se había deteriorado hasta que buena parte fallaba por razones que no tenían nada que ver con el código que probaban — configuración y contexto de navegación, sobre todo. La llevé de unas 200 suites en verde a 272, atacando las causas sistémicas en vez de saltarme las rojas. La cobertura andaba por el 40%, así que además metí análisis estático al pipeline: la duplicidad se detecta antes de la revisión y no durante, y el número por fin está a la vista de todos.',
+          en: 'The Jest suite had drifted into a state where a large share of it failed for reasons that had nothing to do with the code under test — configuration and navigation context, mostly. I took it from around 200 passing suites to 272 by fixing the systemic causes rather than skipping the red ones, and pushed coverage from 40% to 88%. Static analysis went into the pipeline too, so the codebase now reports zero bugs, zero code smells and 2% duplication — and, more importantly, anyone can see that number without asking.',
+          es: 'La suite de Jest se había deteriorado hasta que buena parte fallaba por razones que no tenían nada que ver con el código que probaban — configuración y contexto de navegación, sobre todo. La llevé de unas 200 suites en verde a 272 atacando las causas sistémicas en vez de saltarme las rojas, y subí la cobertura del 40% al 88%. El análisis estático también entró al pipeline: hoy la base reporta cero bugs, cero code smells y 2% de duplicidad — y, más importante, cualquiera puede ver ese número sin tener que preguntar.',
         },
       },
       {
@@ -300,8 +300,7 @@ export const proyectos: Proyecto[] = [
     metricas: [
       { valor: '1000s', etiqueta: { en: 'operations per day', es: 'operaciones por día' } },
       { valor: '30%', etiqueta: { en: 'faster load and sign-up times', es: 'menos tiempo de carga y registro' } },
-      { valor: '272', etiqueta: { en: 'test suites brought back to green', es: 'suites de pruebas devueltas a verde' } },
-      { valor: 'Nacional', etiqueta: { en: 'branch network coverage', es: 'cobertura de la red' } },
+      { valor: '88%', etiqueta: { en: 'test coverage, up from 40%', es: 'de cobertura, contra 40% al llegar' } },
     ],
     rol: {
       en: 'Software engineer on the origination flows — state, API integration, retry behaviour, and the health of the test suite.',
