@@ -242,6 +242,42 @@ revisar(
 )
 revisar('muestra la estatura en metros', /1\.72 m/.test(cuerpoPersonal))
 
+// -------------------------------------------------- Sensación de velocidad
+console.log('\nSensación de velocidad')
+await pagina.goto(BASE, { waitUntil: 'networkidle2' })
+await esperar(600)
+
+// Bajar de golpe y mirar de inmediato: si las animaciones de aparición van
+// tarde, quien baja rápido ve tarjetas en blanco. Eso es lo que la gente
+// describe como "se siente lento", y no tiene nada que ver con el peso.
+await pagina.evaluate(() => window.scrollTo(0, document.body.scrollHeight * 0.45))
+await esperar(120)
+const enBlanco = await pagina.evaluate(() => {
+  const dentro = [...document.querySelectorAll('article, figure')].filter((e) => {
+    const c = e.getBoundingClientRect()
+    return c.top < window.innerHeight && c.bottom > 0
+  })
+  return dentro.filter((e) => {
+    const padre = e.closest('[style*="transition-delay"]') ?? e.parentElement
+    return Number(getComputedStyle(padre).opacity) < 0.9
+  }).length
+})
+revisar('nada queda invisible al bajar de golpe', enBlanco === 0, `${enBlanco} en blanco`)
+
+// Abrir un caso carga un chunk aparte; tiene que sentirse inmediato.
+const inicioNav = Date.now()
+await pagina.evaluate(() => {
+  const a = [...document.querySelectorAll('a')].find((x) =>
+    x.getAttribute('href')?.startsWith('/trabajo/'),
+  )
+  a?.click()
+})
+await pagina.waitForFunction(() => (document.querySelector('h1')?.textContent?.length ?? 0) > 3, {
+  timeout: 15000,
+})
+const msNav = Date.now() - inicioNav
+revisar('abrir un caso se siente inmediato', msNav < 600, `${msNav} ms`)
+
 // ------------------------------------------------------------ Recomendaciones
 console.log('\nRecomendaciones')
 await pagina.goto(BASE, { waitUntil: 'networkidle2' })

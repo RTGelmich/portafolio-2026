@@ -41,7 +41,7 @@ export function Resenas() {
               {/* Las que salen al expandir ya no se revelan con scroll: el
                   usuario acaba de pedirlas, tienen que estar ahí de inmediato. */}
               {indice < DESTACADAS ? (
-                <Revelar retraso={(indice % 2) * 90} className="h-full">
+                <Revelar retraso={(indice % 2) * 50} className="h-full">
                   <TarjetaResena resena={resena} />
                 </Revelar>
               ) : (

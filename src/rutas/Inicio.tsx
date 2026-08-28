@@ -36,7 +36,7 @@ export function Inicio() {
             {proyectos.map((proyecto, indice) => (
               // El retraso escalona solo dentro de la fila: en móvil, con una
               // columna, esperar 5 turnos para la última tarjeta se sentiría lento.
-              <Revelar key={proyecto.slug} retraso={(indice % 2) * 90} className="flex">
+              <Revelar key={proyecto.slug} retraso={(indice % 2) * 50} className="flex">
                 <TarjetaProyecto proyecto={proyecto} indice={indice} />
               </Revelar>
             ))}

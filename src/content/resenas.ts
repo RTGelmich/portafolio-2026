@@ -74,6 +74,16 @@ export const resenas: Resena[] = [
     aprobada: true,
   },
   {
+    nombre: 'Juan Lagunas',
+    puesto: 'Desarrollador Sr.',
+    empresa: 'Grupo Salinas',
+    texto:
+      'Es una persona perseverante, capaz de dar solución a problemas complejos, un gran soporte en cuanto a aportación e implementación de ideas.',
+    idioma: 'es',
+    fecha: '2026-08',
+    aprobada: true,
+  },
+  {
     nombre: 'Luis E. Moya',
     puesto: 'IT',
     empresa: 'Denumeris Interactive',

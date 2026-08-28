@@ -20,8 +20,8 @@ export function Revelar({
   return (
     <div
       ref={referencia}
-      className={`transition-[opacity,transform] duration-700 ease-suave ${
-        visible ? 'translate-y-0 opacity-100' : 'translate-y-5 opacity-0'
+      className={`transition-[opacity,transform] duration-500 ease-suave ${
+        visible ? 'translate-y-0 opacity-100' : 'translate-y-3 opacity-0'
       } ${className}`}
       style={{ transitionDelay: `${retraso}ms` }}
     >

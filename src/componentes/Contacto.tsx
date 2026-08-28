@@ -27,7 +27,7 @@ export function Contacto() {
         <ul className="mt-10 grid gap-3 sm:grid-cols-2">
           {enlaces.map((enlace, indice) => (
             <li key={enlace.etiqueta}>
-              <Revelar retraso={(indice % 2) * 80}>
+              <Revelar retraso={(indice % 2) * 50}>
               <a
                 href={enlace.href}
                 target={enlace.href.startsWith('mailto:') ? undefined : '_blank'}

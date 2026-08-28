@@ -95,5 +95,5 @@ export const personal = {
 export const esteSitio = {
   lighthouse: '100',
   jsInicial: '96 kB',
-  pruebas: 53,
+  pruebas: 55,
 }
