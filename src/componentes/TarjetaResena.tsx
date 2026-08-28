@@ -22,7 +22,7 @@ export function TarjetaResena({ resena }: { resena: Resena }) {
   const { t, idioma } = useIdioma()
 
   return (
-    <figure className="flex h-full flex-col rounded-2xl border border-borde bg-superficie/60 p-6 transition-colors duration-300 hover:border-tenue/35 sm:p-7">
+    <figure className="flex h-full flex-col rounded-2xl border border-borde bg-superficie/60 p-6 transition-colors duration-300 hover:border-tenue/60 hover:bg-superficie sm:p-7">
       {/* whitespace-pre-line respeta los saltos de línea de quien escribió:
           varios separaron sus ideas en renglones y sin esto se aplastan todos
           en un párrafo corrido. */}
