@@ -3,6 +3,7 @@ import { Suspense, lazy, useEffect, useMemo, useState, type ReactNode } from 're
 import { esteSitio, personal } from '../content/personal'
 import { ui } from '../content/ui'
 import { useIdioma } from '../i18n/idioma'
+import { useBrillo } from '../hooks/useBrillo'
 import { ubicacionDelVisitante } from '../lib/distancia'
 import { Avatar } from './Avatar'
 import { Revelar } from './Revelar'
@@ -20,9 +21,19 @@ function Tarjeta({
   className?: string
   retraso?: number
 }) {
+  const seguirPuntero = useBrillo()
+
   return (
     <Revelar retraso={retraso} className={className}>
-      <div className="flex h-full flex-col justify-center rounded-2xl border border-borde bg-superficie/60 p-5 text-center">
+      {/* Mismo tratamiento que las tarjetas de proyecto y de recomendación,
+          con un radio de resplandor más chico: estas tarjetas son pequeñas y
+          con el radio grande se iluminan enteras, que ya no es seguir al
+          cursor sino prender un foco. */}
+      <div
+        onPointerMove={seguirPuntero}
+        style={{ '--brillo-radio': '11rem' } as React.CSSProperties}
+        className="tarjeta-brillo relative isolate flex h-full flex-col justify-center rounded-2xl border border-borde bg-superficie/60 p-5 text-center transition-[border-color,transform] duration-300 ease-suave hover:-translate-y-0.5 hover:border-acento/50"
+      >
         {children}
       </div>
     </Revelar>

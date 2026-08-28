@@ -242,6 +242,44 @@ revisar(
 )
 revisar('muestra la estatura en metros', /1\.72 m/.test(cuerpoPersonal))
 
+// --------------------------------------------------- Consistencia del hover
+console.log('\nHover consistente')
+await pagina.goto(BASE, { waitUntil: 'networkidle2' })
+await esperar(900)
+
+// Las tres familias de tarjeta tienen que reaccionar igual. Si alguien agrega
+// una cuarta y se le olvida el efecto, esto lo caza.
+const tarjetas = [
+  ['#trabajo article', 'proyecto'],
+  ['#recomendaciones figure', 'recomendación'],
+  ['#sobre-mi .tarjeta-brillo', 'sobre mí'],
+]
+const bordes = []
+for (const [sel, etiqueta] of tarjetas) {
+  await pagina.evaluate((s) => {
+    document.querySelector(s)?.scrollIntoView({ behavior: 'instant', block: 'center' })
+  }, sel)
+  await esperar(600)
+  const caja = await pagina.evaluate((s) => {
+    const r = document.querySelector(s)?.getBoundingClientRect()
+    return r ? { x: r.x + r.width / 2, y: r.y + r.height / 2 } : null
+  }, sel)
+  await pagina.mouse.move(caja.x, caja.y)
+  await esperar(500)
+  const estado = await pagina.evaluate((s) => {
+    const n = document.querySelector(s)
+    return {
+      borde: getComputedStyle(n).borderTopColor,
+      brillo: getComputedStyle(n, '::before').opacity,
+    }
+  }, sel)
+  bordes.push(estado.borde)
+  revisar(`la tarjeta de ${etiqueta} enciende su resplandor`, estado.brillo === '1')
+  await pagina.mouse.move(0, 0)
+  await esperar(300)
+}
+revisar('las tres usan el mismo color de borde', new Set(bordes).size === 1, bordes[0])
+
 // ------------------------------------------------------------------ Anclas
 console.log('\nEnlaces con ancla')
 for (const ancla of ['#trabajo', '#recomendaciones', '#sobre-mi', '#contacto']) {

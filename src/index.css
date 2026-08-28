@@ -306,7 +306,7 @@
   transition: opacity 0.35s var(--ease-suave);
   pointer-events: none;
   background: radial-gradient(
-    22rem circle at var(--puntero-x, 50%) var(--puntero-y, 0%),
+    var(--brillo-radio, 22rem) circle at var(--puntero-x, 50%) var(--puntero-y, 0%),
     color-mix(in oklab, var(--color-acento) 14%, transparent),
     transparent 60%
   );
