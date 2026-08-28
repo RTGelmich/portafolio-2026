@@ -116,7 +116,7 @@ const cv = {
 
   formacion: [
     {
-      titulo: 'Ingeniería en Computación · Titulado con cédula profesional',
+      titulo: 'Ingeniería en Computación · Titulado',
       lugar: 'FES Aragón, UNAM',
       periodo: '2014 — 2018',
     },
