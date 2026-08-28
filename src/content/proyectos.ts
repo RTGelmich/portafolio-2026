@@ -268,8 +268,8 @@ export const proyectos: Proyecto[] = [
           es: 'Una suite de pruebas en la que nadie confía es una suite que nadie corre',
         },
         detalle: {
-          en: 'The unit test suite had drifted into a state where a large share of it failed for reasons that had nothing to do with the code under test — configuration and navigation context, mostly. I took it from around 200 passing suites to 272, fixing the systemic causes rather than skipping the red ones, and wired static analysis into the pipeline so duplication gets caught before review instead of during it.',
-          es: 'La suite de pruebas unitarias se había deteriorado hasta que buena parte fallaba por razones que no tenían nada que ver con el código que probaban — configuración y contexto de navegación, sobre todo. La llevé de unas 200 suites en verde a 272, atacando las causas sistémicas en vez de saltarme las rojas, y metí análisis estático al pipeline para que la duplicidad se detecte antes de la revisión y no durante.',
+          en: 'The Jest suite had drifted into a state where a large share of it failed for reasons that had nothing to do with the code under test — configuration and navigation context, mostly. I took it from around 200 passing suites to 272, fixing the systemic causes rather than skipping the red ones. Coverage was sitting around 40%, so I also wired static analysis into the pipeline: duplication now gets caught before review instead of during it, and the number is finally visible to everyone.',
+          es: 'La suite de Jest se había deteriorado hasta que buena parte fallaba por razones que no tenían nada que ver con el código que probaban — configuración y contexto de navegación, sobre todo. La llevé de unas 200 suites en verde a 272, atacando las causas sistémicas en vez de saltarme las rojas. La cobertura andaba por el 40%, así que además metí análisis estático al pipeline: la duplicidad se detecta antes de la revisión y no durante, y el número por fin está a la vista de todos.',
         },
       },
       {

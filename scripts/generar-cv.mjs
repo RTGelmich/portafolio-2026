@@ -47,7 +47,7 @@ const cv = {
         'Reintentos que retoman el flujo en el punto de la falla en lugar de reiniciarlo: a este volumen, un error de 1 en 1000 golpea decenas de veces al día.',
         'Integración de APIs REST y microservicios para transacciones financieras en tiempo real, con normalización de respuestas en la frontera y prácticas OWASP.',
         'Integración de módulos nuevos al núcleo de originación (validación de identidad, prevención de lavado de dinero, firma sin papel con OTP, entrega de tarjeta), coordinando cambios con librerías compartidas versionadas entre equipos.',
-        'Recuperación de la suite de pruebas unitarias: de ~200 a 272 suites en verde con correcciones sistémicas en configuración y en el contexto de navegación; SonarQube integrado al pipeline con reducción de duplicidad de código.',
+        'Recuperación de la suite de Jest: de ~200 a 272 suites en verde con correcciones sistémicas en configuración y contexto de navegación. SonarQube integrado al pipeline sobre una cobertura del ~40%, con reducción de duplicidad.',
       ],
     },
     {
