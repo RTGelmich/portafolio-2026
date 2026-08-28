@@ -40,6 +40,16 @@ export type Resena = {
  */
 export const resenas: Resena[] = [
   {
+    nombre: 'Cesar Villalba',
+    puesto: 'Encargado de Sistemas y Tecnología',
+    empresa: 'Cresagas',
+    texto:
+      'El maquetado de Cresagas no se quedó en referencia visual: fue la guía real para construir el panel de administración en producción. Tomamos directo sus tokens de color para modo claro/oscuro, la estructura de cards, tabs, insignias de estado y hasta el tooltip de la gráfica de consumo, porque estaba armado en código, no solo en una imagen. Se nota el cuidado en los detalles: datos de prueba bien etiquetados, información organizada pensando en cómo funciona el negocio, y un sistema de diseño consistente. Trabajo con visión de producto, no solo de pantalla bonita.',
+    idioma: 'es',
+    fecha: '2026-08',
+    aprobada: true,
+  },
+  {
     nombre: 'Juan Fuentes',
     puesto: 'Senior Full Stack Software Engineer',
     empresa: 'Auction Technology Group',
@@ -50,6 +60,17 @@ export const resenas: Resena[] = [
     idioma: 'es',
     fecha: '2026-08',
     linkedin: 'https://www.linkedin.com/in/rejit-kadath',
+    aprobada: true,
+  },
+  {
+    nombre: 'Alejandro Santiago',
+    puesto: 'Ingeniero de software',
+    empresa: 'Banco Azteca',
+    texto:
+      'Ángel es un compañero confiable y profesional, con una excelente disposición para colaborar y resolver problemas. Destaca por su compromiso con el trabajo, su capacidad para abordar retos técnicos y su disposición para apoyar a sus compañeros. Trabajar a su lado es fácil y enriquecedor, ya que siempre está dispuesto a compartir conocimientos, aportar ideas y buscar soluciones que beneficien al equipo.',
+    idioma: 'es',
+    fecha: '2026-08',
+    linkedin: 'https://www.linkedin.com/in/alejandrosantiagodev',
     aprobada: true,
   },
   {

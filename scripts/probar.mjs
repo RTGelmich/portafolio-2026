@@ -83,7 +83,7 @@ revisar('membresía vencida se rechaza', (await texto()).includes('Membresía ve
 
 // -------------------------------------------------------------------- Gasera
 console.log('\nGasera — trampa del redondeo')
-await pagina.goto(`${BASE}/trabajo/distribuidora-gas`, { waitUntil: 'networkidle2' })
+await pagina.goto(`${BASE}/trabajo/cresagas`, { waitUntil: 'networkidle2' })
 await esperar(400)
 
 await clicPorTexto('button', 'Facturar 1000')

@@ -134,15 +134,11 @@ export const proyectos: Proyecto[] = [
   },
 
   {
-    slug: 'distribuidora-gas',
-    // Cliente bajo confidencialidad: se describe el negocio, no el nombre.
-    nombre: {
-      en: 'Gas distributor billing system',
-      es: 'Sistema de facturación de distribuidora de gas',
-    },
+    slug: 'cresagas',
+    nombre: 'Cresagas',
     cliente: {
-      en: 'LP gas distributor (name withheld)',
-      es: 'Distribuidora de gas LP (nombre reservado)',
+      en: 'LP gas distributor, Mexico',
+      es: 'Distribuidora de gas LP, México',
     },
     periodo: '2026',
     resumen: {
@@ -180,8 +176,8 @@ export const proyectos: Proyecto[] = [
           es: 'Triaje de seguridad antes del primer commit',
         },
         detalle: {
-          en: 'Reading the legacy code turned up four hardcoded credentials, authorization commented out on eight API controllers, and CORS open to everything. Those were fixed and the secrets moved to environment variables before anything was ever committed to git — and the legacy source was kept out of the published repository entirely.',
-          es: 'Leer el código heredado destapó cuatro credenciales en duro, la autorización comentada en ocho controladores de la API y CORS abierto a todo. Eso se arregló y los secretos se movieron a variables de entorno antes de que nada llegara a git — y el código heredado se mantuvo completamente fuera del repositorio publicado.',
+          en: 'Before a single line was committed I audited the inherited code for secrets and access control, moved every credential out to environment variables, and tightened what needed tightening. The legacy source stayed out of the published repository entirely — nobody needs a client\'s old system in a portfolio repo.',
+          es: 'Antes de que se commiteara una sola línea, audité el código heredado en busca de secretos y control de acceso, saqué cada credencial a variables de entorno y endurecí lo que había que endurecer. El código heredado se mantuvo completamente fuera del repositorio publicado — el sistema viejo de un cliente no tiene por qué vivir en el repo de un portafolio.',
         },
       },
     ],
@@ -192,7 +188,7 @@ export const proyectos: Proyecto[] = [
     metricas: [
       { valor: '10,850', etiqueta: { en: 'lines of legacy code read', es: 'líneas de código heredado leídas' } },
       { valor: '46', etiqueta: { en: 'tests on the money logic', es: 'pruebas sobre la lógica de dinero' } },
-      { valor: '4', etiqueta: { en: 'leaked credentials found', es: 'credenciales expuestas encontradas' } },
+      { valor: '0', etiqueta: { en: 'secrets in the published repo', es: 'secretos en el repo publicado' } },
     ],
     rol: {
       en: 'Technical lead on the migration — legacy analysis, architecture, domain port and the written recommendation the client approved.',
