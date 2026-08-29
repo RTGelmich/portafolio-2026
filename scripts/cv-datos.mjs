@@ -46,7 +46,10 @@ export const cv = {
       },
     },
     {
-      empresa: 'Smart Quality Software',
+      // El nombre completo tal como está registrado en LinkedIn. Antes decía
+      // "Smart Quality Software": misma empresa, pero eGas es el nombre con el
+      // que se le encuentra, y es el que quedó en el anuncio público del puesto.
+      empresa: 'eGas Control Volumétrico y Más',
       puesto: { es: 'Ingeniero de Software Front-End', en: 'Front-End Software Engineer' },
       lugar: { es: 'Ciudad de México', en: 'Mexico City' },
       periodo: { es: 'mar 2024 — nov 2024', en: 'Mar 2024 — Nov 2024' },
