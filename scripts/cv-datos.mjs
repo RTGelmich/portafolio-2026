@@ -169,13 +169,12 @@ export const cv = {
     },
   ],
 
-  // El nivel de inglés es lo primero que se verifica en la llamada de screening:
-  // inflarlo no cuesta una vacante, cuesta la relación con quien te la presentó.
-  // Lo que es cierto y sirve: haber vivido allá, y que la lectura y escritura
-  // van sobradas. La conversación se declara por lo que es.
+  // Las etiquetas son las mismas que LinkedIn, palabra por palabra. Describir el
+  // mismo nivel con dos redacciones distintas invita a que alguien compare y
+  // encuentre una diferencia donde no la hay.
   idiomas: {
-    es: 'Español nativo. Inglés: viví en Estados Unidos; leo, escribo y entiendo sin problema. Conversación funcional.',
-    en: 'Spanish native. English: I lived in the United States; I read, write and understand it comfortably. Functional conversation.',
+    es: 'Español — competencia bilingüe o nativa. Inglés — competencia básica profesional.',
+    en: 'Spanish — native or bilingual proficiency. English — limited working proficiency.',
   },
 
   secciones: {
