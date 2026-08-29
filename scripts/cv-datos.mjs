@@ -78,9 +78,12 @@ export const cv = {
     },
     {
       empresa: 'Riot Games',
+      // El "(medio tiempo)" no es adorno: estas fechas se enciman nueve meses
+      // con las de Denumeris. Sin la aclaración parecen dos empleos de tiempo
+      // completo a la vez, y quien lee un CV asume error antes que preguntar.
       puesto: {
-        es: 'Soporte de Tecnologías de la Información',
-        en: 'Information Technology Support',
+        es: 'Soporte de Tecnologías de la Información (medio tiempo)',
+        en: 'Information Technology Support (part-time)',
       },
       lugar: { es: 'Ciudad de México', en: 'Mexico City' },
       periodo: { es: 'ene 2021 — mar 2022', en: 'Jan 2021 — Mar 2022' },
