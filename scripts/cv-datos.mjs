@@ -169,12 +169,13 @@ export const cv = {
     },
   ],
 
-  // "Conversación intermedia" lo dejaba fuera de las vacantes de $4,500+ USD,
-  // que piden inglés fluido. Vivió en Estados Unidos: eso es lo que hay que
-  // decir, porque es el dato que un reclutador puede pesar.
+  // El nivel de inglés es lo primero que se verifica en la llamada de screening:
+  // inflarlo no cuesta una vacante, cuesta la relación con quien te la presentó.
+  // Lo que es cierto y sirve: haber vivido allá, y que la lectura y escritura
+  // van sobradas. La conversación se declara por lo que es.
   idiomas: {
-    es: 'Español nativo. Inglés profesional: viví en Estados Unidos; leo, escribo y sostengo reuniones de trabajo en inglés.',
-    en: 'Spanish native. Professional English: I lived in the United States and read, write and hold work meetings in it.',
+    es: 'Español nativo. Inglés: viví en Estados Unidos; leo, escribo y entiendo sin problema. Conversación funcional.',
+    en: 'Spanish native. English: I lived in the United States; I read, write and understand it comfortably. Functional conversation.',
   },
 
   secciones: {
