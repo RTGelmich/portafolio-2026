@@ -1,4 +1,4 @@
-// Genera public/cv-angel-flores.pdf.
+// Genera public/cv-angel-flores.pdf (español) y cv-angel-flores-en.pdf (inglés).
 //
 // El PDF sale con texto real seleccionable, no como imagen: los sistemas de
 // seguimiento de candidatos (ATS) leen el texto del PDF, y un CV bonito que el
@@ -7,143 +7,45 @@
 // y en vacantes de EE.UU., Reino Unido y Canadá la foto se considera un riesgo
 // de sesgo y varias empresas piden que no la lleve.
 //
+// El contenido vive en cv-datos.mjs, en los dos idiomas.
+//
 // Uso: node scripts/generar-cv.mjs
 import { readFileSync, writeFileSync, unlinkSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import puppeteer from 'puppeteer-core'
 
+import { cv } from './cv-datos.mjs'
+
 const NAVEGADOR = '/Applications/Brave Browser.app/Contents/MacOS/Brave Browser'
 
 const SITIO =
   readFileSync('src/content/sitio.ts', 'utf8').match(/URL_SITIO\s*=\s*'([^']+)'/)?.[1] ?? ''
+const DOMINIO = SITIO.replace(/^https?:\/\//, '')
+
+/** Carta son 11in = 1056px a 96dpi; los márgenes de 11mm se comen ~83px. */
+const ALTO_UTIL = 1056 - 83
 
 /**
- * Todo el contenido del CV vive aquí. Angel edita esto y vuelve a correr el
- * script; no hay que tocar el HTML.
+ * El viewport tiene que ser del ancho real de impresión o la medición miente:
+ * carta son 8.5in menos 26mm de márgenes = ~718px a 96dpi. Midiendo a los 800px
+ * que trae puppeteer por defecto, el texto ocupa menos renglones de los que va
+ * a ocupar y el CV parece caber en una página cuando en realidad son dos.
  */
-const cv = {
-  nombre: 'Angel Flores',
-  titulo: 'Desarrollador Full Stack',
-  ubicacion: 'Ciudad de México, México',
-  email: 'angelfmich@gmail.com',
-  telefono: '+52 55 7874 5371',
-  sitio: SITIO.replace(/^https?:\/\//, ''),
-  linkedin: 'linkedin.com/in/angel-flores-755372219',
-  github: 'github.com/RTGelmich',
+const ANCHO_IMPRESION = 718
 
-  perfil:
-    'Ingeniero en Computación con cinco años construyendo software que opera en producción: originación bancaria a miles de operaciones diarias, sistemas de gestión completos y migración de aplicaciones financieras heredadas. Front-end con React y TypeScript, con trabajo real en base de datos, seguridad y despliegue. Cada proyecto de mi portafolio trae una demo funcional de la parte más difícil.',
-
-  experiencia: [
-    {
-      empresa: 'Grupo Salinas · Banco Azteca',
-      puesto: 'Ingeniero de Software',
-      lugar: 'Ciudad de México',
-      periodo: 'nov 2024 — actual',
-      puntos: [
-        'Desarrollo de interfaces transaccionales críticas de originación (apertura de cuentas, inversiones, seguros, portabilidad) con React y Redux, sobre una base de miles de operaciones diarias.',
-        'Reducción del 30% en los tiempos de carga y registro, con aumento en la tasa de éxito de las afiliaciones.',
-        'Reintentos que retoman el flujo en el punto de la falla en lugar de reiniciarlo: a este volumen, un error de 1 en 1000 golpea decenas de veces al día.',
-        'Integración de APIs REST y microservicios para transacciones financieras en tiempo real, con normalización de respuestas en la frontera y prácticas OWASP.',
-        'Integración de módulos nuevos al núcleo de originación (validación de identidad, prevención de lavado de dinero, firma sin papel con OTP, entrega de tarjeta), coordinando cambios con librerías compartidas versionadas entre equipos.',
-        'Recuperación de la suite de Jest: de ~200 a 272 suites en verde con correcciones sistémicas en configuración y contexto de navegación. Cobertura del 40% al 88% y, en SonarQube, cero bugs, cero code smells y 2% de duplicidad.',
-      ],
-    },
-    {
-      empresa: 'Smart Quality Software',
-      puesto: 'Ingeniero de Software Front-End',
-      lugar: 'Ciudad de México',
-      periodo: 'mar 2024 — nov 2024',
-      puntos: [
-        'Liderazgo técnico del front-end de Conciliagas, plataforma de conciliación volumétrica: lanzamiento en menos de seis meses y operación en más de 150 estaciones.',
-        'Interfaces de alto rendimiento para el procesamiento y visualización de datos volumétricos.',
-        'Pruebas unitarias con Jest y documentación de componentes reutilizables con Storybook.',
-      ],
-    },
-    {
-      empresa: 'Denumeris Interactive Agency',
-      puesto: 'Especialista en Tecnologías de la Información',
-      lugar: 'Ciudad de México',
-      periodo: 'jul 2021 — mar 2024',
-      puntos: [],
-    },
-    {
-      empresa: 'Riot Games',
-      puesto: 'Soporte de Tecnologías de la Información',
-      lugar: 'Ciudad de México',
-      periodo: 'ene 2021 — mar 2022',
-      puntos: [],
-    },
-  ],
-
-  proyectos: [
-    {
-      nombre: 'Gladiadores Playa',
-      enlace: 'gladiadoresplaya.com.mx',
-      texto:
-        'Sistema de gestión de gimnasio en producción, único desarrollador: 14 módulos, acceso por QR con anti-passback, punto de venta transaccional y multi-sede. React 19, TypeScript, PostgreSQL con Row Level Security.',
-    },
-    {
-      nombre: 'Sandate Consultores',
-      enlace: 'sandateconsultores.com.mx',
-      texto:
-        'Portal de clientes con seguridad a nivel de base: RLS, funciones con permisos elevados y URLs firmadas para documentos sensibles. Notificaciones en tiempo real y avisos por WhatsApp Cloud API.',
-    },
-    {
-      nombre: 'Migración de sistema de facturación (distribuidora de gas LP)',
-      enlace: '',
-      texto:
-        'Migración de una app de escritorio WPF de 10,850 líneas a web sin mover la base de producción. Lógica financiera aislada con 46 pruebas, incluido el redondeo bancario de C# frente al de JavaScript. Next.js, Prisma, SQL Server.',
-    },
-  ],
-
-  stack: [
-    {
-      grupo: 'Lenguajes y frameworks',
-      items: 'TypeScript, JavaScript (ES6+), React 19, Next.js, Angular 13+ (RxJS, NgRx), Node.js',
-    },
-    {
-      grupo: 'Estado y datos',
-      items: 'Redux, TanStack Query, Zustand, APIs REST, GraphQL, PostgreSQL con Row Level Security, Prisma, Supabase, SQL Server',
-    },
-    {
-      grupo: 'Interfaz y pruebas',
-      items: 'Tailwind CSS, Material UI, Chakra UI, Styled Components, Jest, Cypress, React Testing Library, Storybook, Puppeteer',
-    },
-    { grupo: 'Herramientas', items: 'Git, GitHub Actions, Docker, Vercel, Jira, metodologías ágiles' },
-  ],
-
-  formacion: [
-    {
-      titulo: 'Ingeniería en Computación · Titulado',
-      lugar: 'FES Aragón, UNAM',
-      periodo: '2014 — 2018',
-    },
-  ],
-
-  credenciales: [
-    {
-      nombre: 'Claude Code 101 — insignia de finalización',
-      lugar: 'Claude Academy (Anthropic)',
-      periodo: '2026',
-    },
-    {
-      nombre: 'Tres cursos de desarrollo web',
-      lugar: 'Udemy',
-      periodo: '2023',
-    },
-  ],
-
-  idiomas:
-    'Español nativo. Inglés técnico: leo, escribo y trabajo en inglés; conversación intermedia.',
-}
+/** Devuelve el valor en el idioma pedido, o el valor tal cual si no es bilingüe. */
+const tr = (valor, idioma) =>
+  valor && typeof valor === 'object' && !Array.isArray(valor) ? valor[idioma] : valor
 
 const escapar = (texto) =>
-  texto.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+  String(texto).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 
-const html = `<!doctype html>
-<html lang="es"><head><meta charset="utf-8"><style>
+function construirHtml(idioma) {
+  const s = (clave) => escapar(tr(cv.secciones[clave], idioma))
+
+  return `<!doctype html>
+<html lang="${idioma}"><head><meta charset="utf-8"><style>
   @page { size: letter; margin: 11mm 13mm; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -191,61 +93,60 @@ const html = `<!doctype html>
     </svg>
     <div>
       <h1>${escapar(cv.nombre)}</h1>
-      <div class="puesto">${escapar(cv.titulo)}</div>
+      <div class="puesto">${escapar(tr(cv.titulo, idioma))}</div>
       <div class="contacto">
-        <span>${escapar(cv.ubicacion)}</span><span class="sep">·</span><span>${escapar(cv.email)}</span><span class="sep">·</span><span>${escapar(cv.telefono)}</span><br>
-        <span><a href="https://${cv.sitio}">${escapar(cv.sitio)}</a></span><span class="sep">·</span><span><a href="https://${cv.linkedin}">${escapar(cv.linkedin)}</a></span><span class="sep">·</span><span><a href="https://${cv.github}">${escapar(cv.github)}</a></span>
+        <span>${escapar(tr(cv.ubicacion, idioma))}</span><span class="sep">·</span><span>${escapar(cv.email)}</span><span class="sep">·</span><span>${escapar(cv.telefono)}</span><br>
+        <span><a href="https://${DOMINIO}">${escapar(DOMINIO)}</a></span><span class="sep">·</span><span><a href="https://${cv.linkedin}">${escapar(cv.linkedin)}</a></span><span class="sep">·</span><span><a href="https://${cv.github}">${escapar(cv.github)}</a></span>
       </div>
     </div>
   </div>
 
-  <p class="perfil">${escapar(cv.perfil)}</p>
+  <p class="perfil">${escapar(tr(cv.perfil, idioma))}</p>
 
-  <h2>Experiencia</h2>
+  <h2>${s('experiencia')}</h2>
   ${cv.experiencia
-    .map(
-      (e) => `<div class="puesto-fila">
-        <div><span class="empresa">${escapar(e.empresa)}</span> — <span class="cargo">${escapar(e.puesto)}</span></div>
-        <div class="fechas">${escapar(e.periodo)} · ${escapar(e.lugar)}</div>
+    .map((e) => {
+      const puntos = tr(e.puntos, idioma)
+      return `<div class="puesto-fila">
+        <div><span class="empresa">${escapar(e.empresa)}</span> — <span class="cargo">${escapar(tr(e.puesto, idioma))}</span></div>
+        <div class="fechas">${escapar(tr(e.periodo, idioma))} · ${escapar(tr(e.lugar, idioma))}</div>
       </div>
-      ${e.puntos.length ? `<ul>${e.puntos.map((p) => `<li>${escapar(p)}</li>`).join('')}</ul>` : ''}`,
-    )
+      ${puntos.length ? `<ul>${puntos.map((p) => `<li>${escapar(p)}</li>`).join('')}</ul>` : ''}`
+    })
     .join('')}
 
-  <h2>Proyectos en producción</h2>
+  <h2>${s('proyectos')}</h2>
   ${cv.proyectos
     .map(
       (p) => `<div class="proyecto">
         <span class="proyecto-nombre">${escapar(p.nombre)}</span>${
           p.enlace ? ` <span class="sep">·</span> <a href="https://${p.enlace}">${escapar(p.enlace)}</a>` : ''
-        }<br>${escapar(p.texto)}
+        }<br>${escapar(tr(p.texto, idioma))}
       </div>`,
     )
     .join('')}
 
-  <h2>Stack</h2>
+  <h2>${s('stack')}</h2>
   ${cv.stack
     .map(
-      (s) => `<div class="stack-fila"><span class="stack-grupo">${escapar(s.grupo)}</span><span>${escapar(s.items)}</span></div>`,
+      (x) => `<div class="stack-fila"><span class="stack-grupo">${escapar(tr(x.grupo, idioma))}</span><span>${escapar(tr(x.items, idioma))}</span></div>`,
     )
     .join('')}
 
-  <h2>Formación y credenciales</h2>
+  <h2>${s('formacion')}</h2>
   ${[...cv.formacion, ...cv.credenciales]
     .map(
       (f) => `<div class="puesto-fila">
-        <div><span class="empresa">${escapar(f.titulo ?? f.nombre)}</span> — ${escapar(f.lugar)}</div>
-        <div class="fechas">${escapar(f.periodo)}</div>
+        <div><span class="empresa">${escapar(tr(f.titulo ?? f.nombre, idioma))}</span> — ${escapar(tr(f.lugar, idioma))}</div>
+        <div class="fechas">${escapar(tr(f.periodo, idioma))}</div>
       </div>`,
     )
     .join('')}
 
-  <h2>Idiomas</h2>
-  <div>${escapar(cv.idiomas)}</div>
+  <h2>${s('idiomas')}</h2>
+  <div>${escapar(tr(cv.idiomas, idioma))}</div>
 </body></html>`
-
-const temporal = join(tmpdir(), `cv-${Date.now()}.html`)
-writeFileSync(temporal, html)
+}
 
 const navegador = await puppeteer.launch({
   executablePath: NAVEGADOR,
@@ -253,28 +154,27 @@ const navegador = await puppeteer.launch({
   args: ['--no-sandbox'],
 })
 
-const pagina = await navegador.newPage()
+for (const [idioma, salida] of [
+  ['es', 'public/cv-angel-flores.pdf'],
+  ['en', 'public/cv-angel-flores-en.pdf'],
+]) {
+  const temporal = join(tmpdir(), `cv-${idioma}-${Date.now()}.html`)
+  writeFileSync(temporal, construirHtml(idioma))
 
-// El viewport tiene que ser del ancho real de impresión o la medición miente:
-// carta son 8.5in menos 26mm de márgenes = ~718px a 96dpi. Midiendo a los
-// 800px que trae por defecto, el texto ocupa menos renglones de los que va a
-// ocupar y el CV parece caber en una página cuando en realidad son dos.
-await pagina.setViewport({ width: 718, height: 1000 })
-await pagina.goto(`file://${temporal}`, { waitUntil: 'networkidle0' })
-await pagina.pdf({
-  path: 'public/cv-angel-flores.pdf',
-  format: 'letter',
-  printBackground: true,
-})
+  const pagina = await navegador.newPage()
+  await pagina.setViewport({ width: ANCHO_IMPRESION, height: 1000 })
+  await pagina.goto(`file://${temporal}`, { waitUntil: 'networkidle0' })
 
-// Carta son 11in = 1056px a 96dpi; los márgenes de 11mm arriba y abajo se
-// comen ~83px. Lo que quepa por debajo de eso es una sola página.
-const ALTO_UTIL = 1056 - 83
-const alto = await pagina.evaluate(() => document.body.scrollHeight)
-const paginas = Math.ceil(alto / ALTO_UTIL)
-console.log(`alto del contenido: ${alto}px · útil por página: ${ALTO_UTIL}px · sobran ${Math.max(0, alto - ALTO_UTIL)}px`)
+  const alto = await pagina.evaluate(() => document.body.scrollHeight)
+  await pagina.pdf({ path: salida, format: 'letter', printBackground: true })
+  await pagina.close()
+  unlinkSync(temporal)
+
+  const paginas = Math.ceil(alto / ALTO_UTIL)
+  const sobra = Math.max(0, alto - ALTO_UTIL)
+  console.log(
+    `${idioma} → ${salida}  ·  ${alto}px de ${ALTO_UTIL} útiles  ·  ${paginas} página${paginas > 1 ? 's' : ''}${sobra ? ` (sobran ${sobra}px)` : ''}`,
+  )
+}
 
 await navegador.close()
-unlinkSync(temporal)
-
-console.log(`OK → public/cv-angel-flores.pdf (~${paginas} página${paginas > 1 ? 's' : ''})`)

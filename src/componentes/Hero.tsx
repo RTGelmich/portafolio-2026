@@ -38,7 +38,7 @@ function useCampoPermitido() {
 }
 
 export function Hero() {
-  const { t } = useIdioma()
+  const { t, idioma } = useIdioma()
   const permitido = useCampoPermitido()
   const seccion = useRef<HTMLElement>(null)
   const [visible, setVisible] = useState(true)
@@ -121,9 +121,12 @@ export function Hero() {
             {t(ui.heroVerTrabajo)}
           </a>
 
-          {contacto.cvUrl && (
+          {/* Quien lee el sitio en inglés descarga el CV en inglés. Mandarle
+              un PDF en español a alguien que está leyendo en inglés es
+              justamente el tipo de descuido que este sitio no debería tener. */}
+          {contacto.cv[idioma] && (
             <a
-              href={contacto.cvUrl}
+              href={contacto.cv[idioma]}
               download
               className="inline-flex h-11 items-center rounded-full border border-borde px-6 text-sm text-tenue transition-colors hover:border-acento hover:text-tinta"
             >

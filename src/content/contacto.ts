@@ -15,6 +15,9 @@ export const contacto = {
   linkedinVisible: 'in/angel-flores',
   linkedinUrl: 'https://www.linkedin.com/in/angel-flores-755372219/',
 
-  // Se genera con: npm run cv
-  cvUrl: '/cv-angel-flores.pdf',
+  // Se generan los dos con: npm run cv
+  cv: {
+    es: '/cv-angel-flores.pdf',
+    en: '/cv-angel-flores-en.pdf',
+  },
 } as const

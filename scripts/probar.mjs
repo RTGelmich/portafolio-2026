@@ -367,20 +367,38 @@ revisar(
 console.log('\nCV')
 await pagina.goto(BASE, { waitUntil: 'networkidle2' })
 await esperar(600)
-const cv = await pagina.evaluate(() => {
-  const a = [...document.querySelectorAll('a')].find((n) =>
-    (n.getAttribute('href') ?? '').endsWith('.pdf'),
-  )
-  return a ? { href: a.getAttribute('href'), descarga: a.hasAttribute('download') } : null
-})
-revisar('el botón de descargar CV aparece', cv !== null)
-revisar('apunta a un PDF y se descarga', cv?.href?.endsWith('.pdf') && cv?.descarga)
+const enlaceCv = () =>
+  pagina.evaluate(() => {
+    const a = [...document.querySelectorAll('a')].find((n) =>
+      (n.getAttribute('href') ?? '').endsWith('.pdf'),
+    )
+    return a ? { href: a.getAttribute('href'), descarga: a.hasAttribute('download') } : null
+  })
 
-const respuestaCv = await pagina.evaluate(
-  async (url) => (await fetch(url)).status,
-  `${BASE}/cv-angel-flores.pdf`,
-)
-revisar('el PDF existe y se sirve', respuestaCv === 200, String(respuestaCv))
+const cvEs = await enlaceCv()
+revisar('el botón de descargar CV aparece', cvEs !== null)
+revisar('se descarga en vez de abrirse', cvEs?.descarga === true)
+revisar('en español apunta al CV en español', cvEs?.href === '/cv-angel-flores.pdf', cvEs?.href)
+
+// Cambiar el idioma del sitio tiene que cambiar el PDF que se descarga:
+// mandarle un CV en español a quien está leyendo en inglés es el descuido
+// que este sitio no debería tener.
+await pagina.evaluate(() => {
+  // Por su texto visible (ES/EN), no por el aria-label: ese está escrito en el
+  // idioma activo y buscarlo en inglés falla cuando el sitio está en español.
+  const b = [...document.querySelectorAll('button')].find((n) =>
+    ['ES', 'EN'].includes(n.textContent?.trim() ?? ''),
+  )
+  b?.click()
+})
+await esperar(400)
+const cvEn = await enlaceCv()
+revisar('en inglés apunta al CV en inglés', cvEn?.href === '/cv-angel-flores-en.pdf', cvEn?.href)
+
+for (const archivo of ['cv-angel-flores.pdf', 'cv-angel-flores-en.pdf']) {
+  const estado = await pagina.evaluate(async (url) => (await fetch(url)).status, `${BASE}/${archivo}`)
+  revisar(`${archivo} se sirve`, estado === 200, String(estado))
+}
 
 // --------------------------------------------------------------- Recomendar
 console.log('\nPágina de recomendar')
