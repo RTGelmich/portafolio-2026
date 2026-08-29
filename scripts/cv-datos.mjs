@@ -169,9 +169,12 @@ export const cv = {
     },
   ],
 
+  // "Conversación intermedia" lo dejaba fuera de las vacantes de $4,500+ USD,
+  // que piden inglés fluido. Vivió en Estados Unidos: eso es lo que hay que
+  // decir, porque es el dato que un reclutador puede pesar.
   idiomas: {
-    es: 'Español nativo. Inglés técnico: leo, escribo y trabajo en inglés; conversación intermedia.',
-    en: 'Spanish native. English at a technical level: I read, write and work in it; intermediate conversation.',
+    es: 'Español nativo. Inglés profesional: viví en Estados Unidos; leo, escribo y sostengo reuniones de trabajo en inglés.',
+    en: 'Spanish native. Professional English: I lived in the United States and read, write and hold work meetings in it.',
   },
 
   secciones: {
