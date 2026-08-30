@@ -154,10 +154,12 @@ export const cv = {
   ],
 
   credenciales: [
+    // Las dos insignias van en un solo renglón a propósito: el CV en español
+    // ocupa 971 de 973 px útiles. Una línea más y se va a dos páginas.
     {
       nombre: {
-        es: 'Claude Code 101 — insignia de finalización',
-        en: 'Claude Code 101 — course completion badge',
+        es: 'Claude Code 101 y Claude Code in Action — insignias de finalización',
+        en: 'Claude Code 101 and Claude Code in Action — course completion badges',
       },
       lugar: 'Claude Academy (Anthropic)',
       periodo: '2026',

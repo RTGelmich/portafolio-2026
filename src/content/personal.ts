@@ -49,6 +49,13 @@ export const personal = {
       tipo: { en: 'Course completion badge', es: 'Insignia de finalización' },
       url: 'https://academy.claude.com/verify/0ec796ec8302f6a919431d1c7ef99235',
     },
+    {
+      nombre: 'Claude Code in Action',
+      emisor: 'Claude Academy · Anthropic',
+      fecha: { en: 'Aug 2026', es: 'ago 2026' },
+      tipo: { en: 'Course completion badge', es: 'Insignia de finalización' },
+      url: 'https://academy.claude.com/badges/eb345413-b8d9-46ac-84b0-26ffd133346c',
+    },
   ],
 
 
